@@ -43,7 +43,7 @@ public class SendRequestTask extends AsyncTaskRunner<Void, Void, Object> {
     protected Object doInBackground(Void... params) {
 
         if (!NetworkManager.isNetworkOnline())
-            return MessageConfiguration.NetworkError.getJSONResult();
+            return MessageConfiguration.NetworkError;
 
         TypeService typeService = this.request.getTypeService();
 
