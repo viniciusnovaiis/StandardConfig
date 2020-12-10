@@ -37,12 +37,12 @@ public class NavigationHelper {
         return NavigationHelper.weakDialog.get();
     }
 
-    static void setCurrentDialog(DialogInterface dialog) {
+    public static void setCurrentDialog(DialogInterface dialog) {
         NavigationHelper.weakDialog = new WeakReference<>(dialog);
     }
 
 
-    static void setCurrentAppCompat(AppCompatActivity activity) {
+    public static void setCurrentAppCompat(AppCompatActivity activity) {
         NavigationHelper.weakAppCompat = new WeakReference<>(activity);
     }
 
