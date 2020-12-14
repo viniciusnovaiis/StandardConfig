@@ -53,6 +53,7 @@ public class ConfigurationHelper {
         Configuration("CONFIGURATION"),
         Authentication("AUTHENTICATION"),
         Application("APPLICATION"),
+        Printer("PRINTER"),
         Credentials("CREDENTIALS");
 
         private String name;
@@ -79,6 +80,7 @@ public class ConfigurationHelper {
         UserLogin(Catalog.Authentication, "USERLOGIN"),
         IsLoggedIn(Catalog.Authentication, "ISLOGGEDIN"),
         PackageName(Catalog.Application, "PACKAGENAME"),
+        MacAddress(Catalog.Printer, "MACADDRESS"),
         IsConfigured(Catalog.Credentials, "ISCONFIGURED");
 
         private Catalog catalog;
