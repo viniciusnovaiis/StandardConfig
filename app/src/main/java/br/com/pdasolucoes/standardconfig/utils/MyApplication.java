@@ -89,7 +89,6 @@ public class MyApplication extends Application implements DialogInterface.OnShow
     private void clearReferences(Activity activity) {
         Activity currActivity = NavigationHelper.getCurrentAppCompat();
         if (currActivity != null && currActivity.equals(activity)) {
-            AuthManager.logoutUser();
             NavigationHelper.setCurrentAppCompat(null);
         }
     }
