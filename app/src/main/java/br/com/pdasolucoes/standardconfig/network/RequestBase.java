@@ -230,6 +230,6 @@ public abstract class RequestBase implements IRequest {
 
     @Override
     public boolean isObjectList() {
-        return false;
+        return this.getRequestInfo().isObjectList();
     }
 }
