@@ -16,7 +16,7 @@ public abstract class SoapRequestBase extends RequestBase {
                 for (int i = 0; i < requestBody.getPropertyCount(); i++) {
                     PropertyInfo propertyInfo = new PropertyInfo();
                     requestBody.getPropertyInfo(i, propertyInfo);
-                    soapObject.addProperty(propertyInfo.name, requestBody.getProperty(i).toString());
+                    soapObject.addProperty(propertyInfo.name, requestBody.getProperty(i));
                 }
             } else {
                 if (!this.isObjectList()) {
