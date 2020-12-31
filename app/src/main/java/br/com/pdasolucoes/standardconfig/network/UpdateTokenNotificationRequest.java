@@ -32,13 +32,11 @@ public class UpdateTokenNotificationRequest extends SoapRequestBase {
                 "UpdateTokenNotificacao",
                 RequestType.OnLine,
                 -1,
-                false,
                 null,
                 null,
                 null,
-                "http://tempuri.org/",
-                null,
-                TypeService.SOAP,0);
+                null
+                , 0, false);
     }
 
     @Override

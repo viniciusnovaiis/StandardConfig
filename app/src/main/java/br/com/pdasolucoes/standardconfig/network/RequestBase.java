@@ -227,4 +227,9 @@ public abstract class RequestBase implements IRequest {
     public boolean isUniqueReturn() {
         return this.getRequestInfo().isUniqueReturn();
     }
+
+    @Override
+    public boolean isObjectList() {
+        return false;
+    }
 }
