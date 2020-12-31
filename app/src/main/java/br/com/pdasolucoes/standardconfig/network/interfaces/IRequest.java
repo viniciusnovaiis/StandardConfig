@@ -35,6 +35,8 @@ public interface IRequest extends IAsyncTaskCallback<Void, Object> {
 
     boolean isUniqueReturn();
 
+    boolean isObjectList();
+
     Class<?> getObject();
 
     SoapObject getSoapObjectToList();
@@ -52,4 +54,5 @@ public interface IRequest extends IAsyncTaskCallback<Void, Object> {
     HttpEntity getRequestEntity() throws UnsupportedEncodingException;
 
     SoapObject getRequestSoapObject();
+
 }

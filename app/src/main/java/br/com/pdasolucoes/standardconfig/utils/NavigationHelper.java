@@ -170,7 +170,7 @@ public class NavigationHelper {
             });
         }
 
-        if (strNeutral != -1 && neutral != null) {
+        if (neutral != null && strNeutral != -1) {
             builder.setNeutralButton(strNeutral, neutral);
         }
 

@@ -19,6 +19,14 @@ public abstract class SoapRequestBase extends RequestBase {
                     soapObject.addProperty(propertyInfo.name, requestBody.getProperty(i).toString());
                 }
             } else {
+                if (!this.isObjectList()) {
+                    for (int i = 0; i < requestBody.getPropertyCount(); i++) {
+                        PropertyInfo propertyInfo = new PropertyInfo();
+                        requestBody.getPropertyInfo(i, propertyInfo);
+                        soapObject.addProperty(propertyInfo.name, requestBody.getProperty(i).toString());
+                    }
+                    return soapObject;
+                }
                 soapObject.addSoapObject(requestBody);
             }
         }
