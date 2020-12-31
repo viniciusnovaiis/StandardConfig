@@ -99,7 +99,7 @@ public class SendRequestTask extends AsyncTaskRunner<Void, Void, Object> {
 
             transportSE.call(this.request.getNameSpace() + this.request.getAction(), envelope);
 
-            if (this.request.getObjectName() != null || this.request.isUniqueReturn())
+            if (this.request.isUniqueReturn())
                 response = (SoapObject) envelope.bodyIn;
             else
                 response = (SoapObject) envelope.getResponse();

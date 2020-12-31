@@ -67,7 +67,7 @@ public class RequestInfo {
     }
 
     public RequestInfo(String service, String action, RequestType requestType, int descriptionResourceId,
-                       String entity, String objectName, Class<?> objectClass, String nameSpace, MarshalType[] marshalTypes, TypeService typeService, int timeout, boolean isObjectList) {
+                       String entity, String objectName, Class<?> objectClass, String nameSpace, MarshalType[] marshalTypes, TypeService typeService, int timeout, boolean isObjectList, boolean isUniqueReturn ) {
         this.service = service;
         this.action = action;
         this.descriptionResourceId = descriptionResourceId;
@@ -80,11 +80,12 @@ public class RequestInfo {
         this.objectName = objectName;
         this.timeout = timeout;
         this.objectList = isObjectList;
+        this.isUniqueReturn = isUniqueReturn;
     }
 
     public RequestInfo(String service, String action, RequestType requestType, int descriptionResourceId,
-                       String entity, String objectName, Class<?> objectClass, MarshalType[] marshalTypes, int timeout, boolean isObjectList) {
-        this(service, action, requestType, descriptionResourceId, entity, objectName, objectClass, "http://tempuri.org/", marshalTypes, TypeService.SOAP, timeout, isObjectList);
+                       String entity, String objectName, Class<?> objectClass, MarshalType[] marshalTypes, int timeout, boolean isObjectList, boolean isUniqueReturn) {
+        this(service, action, requestType, descriptionResourceId, entity, objectName, objectClass, "http://tempuri.org/", marshalTypes, TypeService.SOAP, timeout, isObjectList,isUniqueReturn );
     }
 
     public String getService() {

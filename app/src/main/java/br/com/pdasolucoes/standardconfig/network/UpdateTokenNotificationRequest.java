@@ -36,7 +36,8 @@ public class UpdateTokenNotificationRequest extends SoapRequestBase {
                 null,
                 null,
                 null
-                , 0, false);
+                , 0, false,
+                true);
     }
 
     @Override
