@@ -69,7 +69,6 @@ public class MyApplication extends Application implements DialogInterface.OnShow
 
             @Override
             public void onActivityStopped(@NonNull Activity activity) {
-                clearReferences(activity);
             }
 
             @Override
