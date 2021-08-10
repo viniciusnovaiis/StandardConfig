@@ -1,13 +1,18 @@
 package br.com.pdasolucoes.standardconfig.network;
 
 import org.apache.http.HttpEntity;
+import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpDelete;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
+import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.serialization.MarshalBase64;
@@ -27,6 +32,7 @@ import java.net.SocketTimeoutException;
 import br.com.pdasolucoes.standardconfig.enums.MarshalType;
 import br.com.pdasolucoes.standardconfig.managers.NetworkManager;
 import br.com.pdasolucoes.standardconfig.network.enums.MessageConfiguration;
+import br.com.pdasolucoes.standardconfig.network.enums.MethodRequest;
 import br.com.pdasolucoes.standardconfig.network.enums.TypeService;
 import br.com.pdasolucoes.standardconfig.network.interfaces.IRequest;
 import br.com.pdasolucoes.standardconfig.utils.ConfigurationHelper;
@@ -110,7 +116,7 @@ public class SendRequestTask extends AsyncTaskRunner<Void, Void, Object> {
         } catch (XmlPullParserException e) {
             MessageConfiguration.ExceptionError.setExceptionErrorMessage(e.getMessage());
             return MessageConfiguration.ExceptionError;
-        }catch (Exception e){
+        } catch (Exception e) {
             MessageConfiguration.ExceptionError.setExceptionErrorMessage(e.getMessage());
             return MessageConfiguration.ExceptionError;
         }
@@ -121,31 +127,42 @@ public class SendRequestTask extends AsyncTaskRunner<Void, Void, Object> {
 
     private Object requestREST() {
         try {
-            int timeout = 1000;
+
+            int timeout = this.request.getTimeOut();
             HttpParams httpParams = new BasicHttpParams();
             HttpConnectionParams.setSoTimeout(httpParams, timeout);
 
-            String service = this.request.getService();
+            String baseUrl = ConfigurationHelper.loadPreference(ConfigurationHelper.ConfigurationEntry.ServerAddress, "");
+            String service = ConfigurationHelper.loadPreference(ConfigurationHelper.ConfigurationEntry.Directory, "");
             String action = this.request.getAction();
 
-            String baseUrl = ConfigurationHelper.loadPreference(ConfigurationHelper.ConfigurationEntry.ServerAddress, "");
 
             HttpClient httpClient = new DefaultHttpClient();
-            HttpPost postRequest = new HttpPost(baseUrl + service + "/" + action);
-
-            HttpEntity entity = this.request.getRequestEntity();
-            postRequest.setEntity(entity);
-
-            HttpResponse httpResp = httpClient.execute(postRequest);
-
-            BufferedReader reader = new BufferedReader(new InputStreamReader(httpResp.getEntity().getContent(), "UTF-8"));
-            String response = reader.readLine();
-            reader.close();
-
+            HttpResponse httpResp;
+            if (this.request.getMethodRequest() == MethodRequest.POST) {
+                HttpPost postRequest = new HttpPost(baseUrl + service + "/" + action);
+                HttpEntity entity = this.request.getRequestEntity();
+                postRequest.setEntity(entity);
+                httpResp = httpClient.execute(postRequest);
+            } else if (this.request.getMethodRequest() == MethodRequest.GET) {
+                HttpGet geRequest = new HttpGet(baseUrl + service + "/" + action);
+                httpResp = httpClient.execute(geRequest);
+            } else if (this.request.getMethodRequest() == MethodRequest.PUT) {
+                HttpPut httpPut = new HttpPut(baseUrl + service + "/" + action);
+                httpResp = httpClient.execute(httpPut);
+            }else if (this.request.getMethodRequest() == MethodRequest.PATCH){
+                HttpPatch patchRequest = new HttpPatch(baseUrl + service + "/" + action);
+                HttpEntity entity = this.request.getRequestEntity();
+                patchRequest.setEntity(entity);
+                httpResp = httpClient.execute(patchRequest);
+            }else{
+                HttpDelete httpDelete = new HttpDelete(baseUrl + service + "/" + action);
+                httpResp = httpClient.execute(httpDelete);
+            }
             JSONObject jsonResponse;
 
             try {
-                jsonResponse = new JSONObject(response);
+                jsonResponse = new JSONObject(EntityUtils.toString(httpResp.getEntity()));
             } catch (Exception e) {
                 return MessageConfiguration.getJSONResultMessage(e.getMessage());
             }
@@ -160,6 +177,23 @@ public class SendRequestTask extends AsyncTaskRunner<Void, Void, Object> {
         } catch (IOException e) {
             MessageConfiguration.ExceptionError.setExceptionErrorMessage(e.getMessage());
             return MessageConfiguration.ExceptionError;
+        }catch (IllegalStateException e){
+            MessageConfiguration.ExceptionError.setExceptionErrorMessage(e.getMessage());
+            return MessageConfiguration.ExceptionError;
+        }
+    }
+
+    public class HttpPatch extends HttpPost{
+
+        public static final String METHOD_PATCH = "PATCH";
+
+        public HttpPatch(final String url) {
+            super(url);
+        }
+
+        @Override
+        public String getMethod() {
+            return METHOD_PATCH;
         }
     }
 }

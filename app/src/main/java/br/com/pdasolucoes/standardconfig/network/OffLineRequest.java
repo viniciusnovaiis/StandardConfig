@@ -47,11 +47,6 @@ public abstract class OffLineRequest extends SoapRequestBase {
 	}
 	
 	@Override
-	public boolean getRequireAuthentication(){
-		return true;
-	}
-	
-	@Override
 	public String getDescription(){
 		return "";
 	}

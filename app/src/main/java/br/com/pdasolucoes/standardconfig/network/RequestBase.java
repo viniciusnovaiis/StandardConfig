@@ -15,6 +15,7 @@ import br.com.pdasolucoes.standardconfig.R;
 import br.com.pdasolucoes.standardconfig.enums.MarshalType;
 import br.com.pdasolucoes.standardconfig.managers.NetworkManager;
 import br.com.pdasolucoes.standardconfig.network.enums.MessageConfiguration;
+import br.com.pdasolucoes.standardconfig.network.enums.MethodRequest;
 import br.com.pdasolucoes.standardconfig.network.enums.RequestInfo;
 import br.com.pdasolucoes.standardconfig.network.enums.RequestType;
 import br.com.pdasolucoes.standardconfig.network.enums.TypeService;
@@ -39,11 +40,6 @@ public abstract class RequestBase implements IRequest {
 
     public RequestBase(Activity context) {
         this.context = context;
-    }
-
-    @Override
-    public void setHandler(IRequestHandler handler) {
-        this.handler = handler;
     }
 
     @Override
@@ -142,11 +138,6 @@ public abstract class RequestBase implements IRequest {
 
     protected abstract RequestInfo getRequestInfo();
 
-    @Override
-    public Date getRequestTimestamp() {
-        return this.requestTimestamp;
-    }
-
 
     @Override
     public String getService() {
@@ -161,11 +152,6 @@ public abstract class RequestBase implements IRequest {
     @Override
     public RequestType getRequestType() {
         return this.getRequestInfo().getRequestType();
-    }
-
-    @Override
-    public boolean getRequireAuthentication() {
-        return this.getRequestInfo().getRequireAuthentication();
     }
 
     @Override
@@ -191,11 +177,6 @@ public abstract class RequestBase implements IRequest {
     @Override
     public Class<?> getObject() {
         return this.getRequestInfo().getObject();
-    }
-
-    @Override
-    public SoapObject getSoapObjectToList() {
-        return this.getRequestInfo().getSoapObjectToList();
     }
 
     @Override
@@ -231,5 +212,10 @@ public abstract class RequestBase implements IRequest {
     @Override
     public boolean isObjectList() {
         return this.getRequestInfo().isObjectList();
+    }
+
+    @Override
+    public MethodRequest getMethodRequest(){
+        return this.getRequestInfo().getMethodRequest();
     }
 }

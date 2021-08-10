@@ -23,6 +23,7 @@ public class RequestInfo {
     private int timeout;
     private boolean objectList;
     private boolean isUniqueReturn;
+    private MethodRequest methodRequest;
 
     public RequestInfo(String service, String action, RequestType requestType, int descriptionResourceId, int timeout, boolean isUniqueReturn) {
         this(service, action, requestType, descriptionResourceId, true, TypeService.SOAP, timeout, isUniqueReturn);
@@ -44,6 +45,19 @@ public class RequestInfo {
         this(service, action, requestType, descriptionResourceId, nameSpace, TypeService.SOAP, 0, isUniqueReturn);
     }
 
+    public RequestInfo(String action, int descriptionResourceId, MethodRequest methodRequest, int timeout) {
+        this.action = action;
+        this.descriptionResourceId = descriptionResourceId;
+        this.timeout = timeout;
+        this.typeService = TypeService.REST;
+        this.methodRequest = methodRequest;
+    }
+
+    public RequestInfo(String action, int descriptionResourceId, MethodRequest methodRequest){
+        this(action, descriptionResourceId, methodRequest, 1000);
+    }
+
+
     public RequestInfo(String service, String action, RequestType requestType, int descriptionResourceId, boolean requireAuthentication, TypeService typeService, int timeout, boolean isUniqueReturn) {
         this.service = service;
         this.action = action;
@@ -54,6 +68,7 @@ public class RequestInfo {
         this.timeout = timeout;
         this.isUniqueReturn = isUniqueReturn;
     }
+
 
     public RequestInfo(String service, String action, RequestType requestType, int descriptionResourceId, String nameSpace, TypeService typeService, int timeout, boolean isUniqueReturn) {
         this.service = service;
@@ -152,5 +167,9 @@ public class RequestInfo {
 
     public boolean isObjectList() {
         return objectList;
+    }
+
+    public MethodRequest getMethodRequest() {
+        return methodRequest;
     }
 }

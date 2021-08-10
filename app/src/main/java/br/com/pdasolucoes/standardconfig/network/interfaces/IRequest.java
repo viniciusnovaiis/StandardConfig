@@ -8,6 +8,7 @@ import java.util.Date;
 
 import br.com.pdasolucoes.standardconfig.enums.MarshalType;
 import br.com.pdasolucoes.standardconfig.network.enums.MessageConfiguration;
+import br.com.pdasolucoes.standardconfig.network.enums.MethodRequest;
 import br.com.pdasolucoes.standardconfig.network.enums.RequestType;
 import br.com.pdasolucoes.standardconfig.network.enums.TypeService;
 
@@ -18,8 +19,6 @@ public interface IRequest extends IAsyncTaskCallback<Void, Object> {
     String getAction();
 
     RequestType getRequestType();
-
-    boolean getRequireAuthentication();
 
     String getDescription();
 
@@ -39,19 +38,15 @@ public interface IRequest extends IAsyncTaskCallback<Void, Object> {
 
     Class<?> getObject();
 
-    SoapObject getSoapObjectToList();
-
     MarshalType[] getMarshalTypes();
 
     void processResult(Object data);
 
     void processError(MessageConfiguration result);
 
-    void setHandler(IRequestHandler handler);
-
-    Date getRequestTimestamp();
-
     HttpEntity getRequestEntity() throws UnsupportedEncodingException;
+
+    MethodRequest getMethodRequest();
 
     SoapObject getRequestSoapObject();
 
