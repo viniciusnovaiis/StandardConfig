@@ -64,6 +64,7 @@ public abstract class RequestBase implements IRequest {
         }
 
         if (this.handleError(messageConfiguration)) {
+            this.processError(messageConfiguration);
             if (this.handler != null) {
                 this.handler.onError();
             }
@@ -215,7 +216,7 @@ public abstract class RequestBase implements IRequest {
     }
 
     @Override
-    public MethodRequest getMethodRequest(){
+    public MethodRequest getMethodRequest() {
         return this.getRequestInfo().getMethodRequest();
     }
 }
