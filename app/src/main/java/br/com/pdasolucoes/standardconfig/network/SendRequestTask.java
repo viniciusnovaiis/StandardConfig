@@ -62,7 +62,7 @@ public class SendRequestTask extends AsyncTaskRunner<Void, Void, Object> {
 
     private Object requestSOAP() {
         SoapObject response;
-
+        String bodyInRetorno = "";
         try {
 
             SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
@@ -105,9 +105,10 @@ public class SendRequestTask extends AsyncTaskRunner<Void, Void, Object> {
 
             transportSE.call(this.request.getNameSpace() + this.request.getAction(), envelope);
 
-            if (this.request.isUniqueReturn())
+            if (this.request.isUniqueReturn()) {
+                bodyInRetorno = envelope.bodyIn.toString();
                 response = (SoapObject) envelope.bodyIn;
-            else
+            } else
                 response = (SoapObject) envelope.getResponse();
 
         } catch (IOException e) {
@@ -115,6 +116,9 @@ public class SendRequestTask extends AsyncTaskRunner<Void, Void, Object> {
             return MessageConfiguration.ExceptionError;
         } catch (XmlPullParserException e) {
             MessageConfiguration.ExceptionError.setExceptionErrorMessage(e.getMessage());
+            return MessageConfiguration.ExceptionError;
+        } catch (ClassCastException e) {
+            MessageConfiguration.ExceptionError.setExceptionErrorMessage(bodyInRetorno);
             return MessageConfiguration.ExceptionError;
         } catch (Exception e) {
             MessageConfiguration.ExceptionError.setExceptionErrorMessage(e.getMessage());
@@ -150,12 +154,12 @@ public class SendRequestTask extends AsyncTaskRunner<Void, Void, Object> {
             } else if (this.request.getMethodRequest() == MethodRequest.PUT) {
                 HttpPut httpPut = new HttpPut(baseUrl + service + "/" + action);
                 httpResp = httpClient.execute(httpPut);
-            }else if (this.request.getMethodRequest() == MethodRequest.PATCH){
+            } else if (this.request.getMethodRequest() == MethodRequest.PATCH) {
                 HttpPatch patchRequest = new HttpPatch(baseUrl + service + "/" + action);
                 HttpEntity entity = this.request.getRequestEntity();
                 patchRequest.setEntity(entity);
                 httpResp = httpClient.execute(patchRequest);
-            }else{
+            } else {
                 HttpDelete httpDelete = new HttpDelete(baseUrl + service + "/" + action);
                 httpResp = httpClient.execute(httpDelete);
             }
@@ -177,13 +181,13 @@ public class SendRequestTask extends AsyncTaskRunner<Void, Void, Object> {
         } catch (IOException e) {
             MessageConfiguration.ExceptionError.setExceptionErrorMessage(e.getMessage());
             return MessageConfiguration.ExceptionError;
-        }catch (IllegalStateException e){
+        } catch (IllegalStateException e) {
             MessageConfiguration.ExceptionError.setExceptionErrorMessage(e.getMessage());
             return MessageConfiguration.ExceptionError;
         }
     }
 
-    public class HttpPatch extends HttpPost{
+    public class HttpPatch extends HttpPost {
 
         public static final String METHOD_PATCH = "PATCH";
 
