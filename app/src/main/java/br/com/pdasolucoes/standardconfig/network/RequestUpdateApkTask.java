@@ -61,7 +61,7 @@ public class RequestUpdateApkTask extends AsyncTaskRunner<Void, Void, Object> {
             URL url = new URL(baseUrl + service + "/" + action);
             HttpURLConnection c = (HttpURLConnection) url.openConnection();
 
-            File PATH = Environment.getExternalStorageDirectory();
+            File PATH = Environment.getDownloadCacheDirectory();
             File file = new File(PATH, Environment.DIRECTORY_DOWNLOADS);
             if (!file.exists())
                 file.mkdirs();
