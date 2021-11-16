@@ -1,11 +1,14 @@
 package br.com.pdasolucoes.standardconfig.managers;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -73,6 +76,7 @@ public class NetworkManager {
         requestUpdateApkTask.execute();
     }
 
+    @SuppressLint({"WrongConstant", "QueryPermissionsNeeded"})
     public static boolean isPackageInstalled(String packageName) {
 
         AppCompatActivity activity = NavigationHelper.getCurrentAppCompat();
@@ -81,6 +85,14 @@ public class NetworkManager {
             return false;
 
         try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                for (PackageInfo p :
+                        activity.getPackageManager().getInstalledPackages(PackageManager.MATCH_ALL)) {
+                    if (p.packageName.equals(packageName))
+                        return true;
+                }
+            }
+
             return activity.getPackageManager().getApplicationInfo(packageName, 0).enabled;
         } catch (PackageManager.NameNotFoundException e) {
             return false;
