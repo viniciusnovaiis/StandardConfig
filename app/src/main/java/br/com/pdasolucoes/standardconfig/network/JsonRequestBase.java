@@ -2,6 +2,7 @@ package br.com.pdasolucoes.standardconfig.network;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.entity.StringEntity;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
@@ -9,7 +10,7 @@ import java.io.UnsupportedEncodingException;
 public abstract class JsonRequestBase extends RequestBase {
 
     @Override
-    public HttpEntity getRequestEntity() throws UnsupportedEncodingException {
+    public HttpEntity getRequestEntity() throws UnsupportedEncodingException, JSONException {
         String requestContent = "";
         JSONObject requestBody = this.getBody();
         if (requestBody != null) {
@@ -21,6 +22,6 @@ public abstract class JsonRequestBase extends RequestBase {
         return entity;
     }
 
-    public abstract JSONObject getBody();
+    public abstract JSONObject getBody() throws JSONException;
 
 }

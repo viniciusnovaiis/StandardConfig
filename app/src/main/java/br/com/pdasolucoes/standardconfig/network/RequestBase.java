@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 
 import org.apache.http.HttpEntity;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.ksoap2.serialization.SoapObject;
 
@@ -112,7 +113,8 @@ public abstract class RequestBase implements IRequest {
             return false;
 
         if (messageConfiguration == MessageConfiguration.ExceptionError) {
-            NavigationHelper.showDialog(context.getString(R.string.title_error), messageConfiguration.getExceptionErrorMessage(), null, null);
+            if (this.getRequestType() == RequestType.OnLine)
+                NavigationHelper.showDialog(context.getString(R.string.title_error), messageConfiguration.getExceptionErrorMessage(), null, null);
             return true;
         }
 
@@ -124,7 +126,8 @@ public abstract class RequestBase implements IRequest {
 
         if (messageConfiguration == MessageConfiguration.NetworkError
                 || messageConfiguration == MessageConfiguration.PermissonDeniedError) {
-            NavigationHelper.showDialog(context.getString(R.string.title_error), context.getString(messageConfiguration.getMsg()), null, null);
+            if (this.getRequestType() == RequestType.OnLine)
+                NavigationHelper.showDialog(context.getString(R.string.title_error), context.getString(messageConfiguration.getMsg()), null, null);
             return true;
         }
 
@@ -191,7 +194,7 @@ public abstract class RequestBase implements IRequest {
     }
 
     @Override
-    public HttpEntity getRequestEntity() throws UnsupportedEncodingException {
+    public HttpEntity getRequestEntity() throws UnsupportedEncodingException, JSONException {
         return null;
     }
 

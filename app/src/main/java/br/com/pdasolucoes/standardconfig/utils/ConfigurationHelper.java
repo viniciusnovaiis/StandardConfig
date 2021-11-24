@@ -78,7 +78,10 @@ public class ConfigurationHelper {
         UserCodeProfile(Catalog.Authentication, "USERCODEPROFILE"),
         UserNameProfile(Catalog.Authentication, "USERNAMEPROFILE"),
         UserLogin(Catalog.Authentication, "USERLOGIN"),
+        UserPassword(Catalog.Authentication, "USERPASSWORD"),
         IsLoggedIn(Catalog.Authentication, "ISLOGGEDIN"),
+        RefreshToken(Catalog.Authentication, "REFRESHTOKEN"),
+        Token(Catalog.Authentication, "TOKEN"),
         PackageName(Catalog.Application, "PACKAGENAME"),
         MacAddress(Catalog.Printer, "MACADDRESS"),
         IsConfigured(Catalog.Credentials, "ISCONFIGURED");

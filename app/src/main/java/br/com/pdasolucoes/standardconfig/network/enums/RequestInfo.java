@@ -53,7 +53,16 @@ public class RequestInfo {
         this.methodRequest = methodRequest;
     }
 
-    public RequestInfo(String action, int descriptionResourceId, MethodRequest methodRequest){
+    public RequestInfo(String action, RequestType requestType, int descriptionResourceId, MethodRequest methodRequest, int timeout) {
+        this.action = action;
+        this.descriptionResourceId = descriptionResourceId;
+        this.requestType = requestType;
+        this.timeout = timeout;
+        this.typeService = TypeService.REST;
+        this.methodRequest = methodRequest;
+    }
+
+    public RequestInfo(String action, int descriptionResourceId, MethodRequest methodRequest) {
         this(action, descriptionResourceId, methodRequest, 1000);
     }
 
@@ -82,7 +91,7 @@ public class RequestInfo {
     }
 
     public RequestInfo(String service, String action, RequestType requestType, int descriptionResourceId,
-                       String entity, String objectName, Class<?> objectClass, String nameSpace, MarshalType[] marshalTypes, TypeService typeService, int timeout, boolean isObjectList, boolean isUniqueReturn ) {
+                       String entity, String objectName, Class<?> objectClass, String nameSpace, MarshalType[] marshalTypes, TypeService typeService, int timeout, boolean isObjectList, boolean isUniqueReturn) {
         this.service = service;
         this.action = action;
         this.descriptionResourceId = descriptionResourceId;
@@ -100,7 +109,7 @@ public class RequestInfo {
 
     public RequestInfo(String service, String action, RequestType requestType, int descriptionResourceId,
                        String entity, String objectName, Class<?> objectClass, MarshalType[] marshalTypes, int timeout, boolean isObjectList, boolean isUniqueReturn) {
-        this(service, action, requestType, descriptionResourceId, entity, objectName, objectClass, "http://tempuri.org/", marshalTypes, TypeService.SOAP, timeout, isObjectList,isUniqueReturn );
+        this(service, action, requestType, descriptionResourceId, entity, objectName, objectClass, "http://tempuri.org/", marshalTypes, TypeService.SOAP, timeout, isObjectList, isUniqueReturn);
     }
 
     public String getService() {

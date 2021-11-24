@@ -9,8 +9,8 @@ android {
         //applicationId "br.com.pdasolucoes.standardconfig"
         minSdkVersion 15
         targetSdkVersion 30
-        //versionCode 1
-        //versionName "1.0.23"
+//        versionCode 1
+//        versionName "1.0.23"
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -28,9 +28,11 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'com.android.support:multidex:2.0.1'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'com.google.code.gson:gson:2.8.9'
 //    implementation 'androidx.preference:preference:1.0.0'
     implementation 'com.github.MdFarhanRaja:SearchableSpinner:1.9'
     implementation files('libs/ksoap2-android-assembly-3.5.0-jar-with-dependencies.jar')
+    implementation 'androidx.localbroadcastmanager:localbroadcastmanager:1.0.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'

@@ -1,6 +1,7 @@
 package br.com.pdasolucoes.standardconfig.network.interfaces;
 
 import org.apache.http.HttpEntity;
+import org.json.JSONException;
 import org.ksoap2.serialization.SoapObject;
 
 import java.io.UnsupportedEncodingException;
@@ -44,7 +45,7 @@ public interface IRequest extends IAsyncTaskCallback<Void, Object> {
 
     void processError(MessageConfiguration result);
 
-    HttpEntity getRequestEntity() throws UnsupportedEncodingException;
+    HttpEntity getRequestEntity() throws UnsupportedEncodingException, JSONException;
 
     MethodRequest getMethodRequest();
 

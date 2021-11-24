@@ -13,6 +13,7 @@ import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 import org.apache.http.util.EntityUtils;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.serialization.MarshalBase64;
@@ -165,11 +166,7 @@ public class SendRequestTask extends AsyncTaskRunner<Void, Void, Object> {
             }
             JSONObject jsonResponse;
 
-            try {
-                jsonResponse = new JSONObject(EntityUtils.toString(httpResp.getEntity()));
-            } catch (Exception e) {
-                return MessageConfiguration.getJSONResultMessage(e.getMessage());
-            }
+            jsonResponse = new JSONObject(EntityUtils.toString(httpResp.getEntity()));
 
             return jsonResponse;
         } catch (SocketTimeoutException e) {
@@ -184,6 +181,9 @@ public class SendRequestTask extends AsyncTaskRunner<Void, Void, Object> {
         } catch (IllegalStateException e) {
             MessageConfiguration.ExceptionError.setExceptionErrorMessage(e.getMessage());
             return MessageConfiguration.ExceptionError;
+        } catch (JSONException e) {
+            MessageConfiguration.ExceptionError.setExceptionErrorMessage(e.getMessage());
+            return  MessageConfiguration.ExceptionError;
         }
     }
 

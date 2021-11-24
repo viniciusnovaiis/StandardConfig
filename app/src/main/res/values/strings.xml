@@ -39,4 +39,5 @@
     <string name="pref_filial">Filial</string>
     <string name="user_not_auth">Sessão expirada ou usuário não autenticado</string>
     <string name="ok">OK</string>
+    <string name="autenticando">Autenticando...</string>
 </resources>

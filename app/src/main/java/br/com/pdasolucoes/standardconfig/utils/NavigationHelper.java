@@ -144,9 +144,9 @@ public class NavigationHelper {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(appCompatActivity);
         if (title != -1)
-            builder.setTitle(appCompatActivity.getString(title));
+            builder.setTitle(title);
         if (msg != -1)
-            builder.setMessage(appCompatActivity.getString(msg));
+            builder.setMessage(msg);
 
         if (positive != null) {
             builder.setPositiveButton(strPositive, positive);

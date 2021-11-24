@@ -2,11 +2,15 @@ package br.com.pdasolucoes.standardconfig.utils;
 
 import android.app.Activity;
 import android.app.Application;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,6 +20,9 @@ import androidx.multidex.MultiDex;
 import br.com.pdasolucoes.standardconfig.R;
 import br.com.pdasolucoes.standardconfig.managers.AuthManager;
 import br.com.pdasolucoes.standardconfig.managers.NetworkManager;
+
+import static android.app.Activity.RESULT_CANCELED;
+import static android.app.Activity.RESULT_OK;
 
 public class MyApplication extends Application implements DialogInterface.OnShowListener {
 
@@ -39,8 +46,6 @@ public class MyApplication extends Application implements DialogInterface.OnShow
             public void onActivityCreated(@NonNull Activity activity, @Nullable Bundle savedInstanceState) {
                 NavigationHelper.setCurrentAppCompat((AppCompatActivity) activity);
 
-
-
             }
 
             @Override
@@ -50,21 +55,14 @@ public class MyApplication extends Application implements DialogInterface.OnShow
             @Override
             public void onActivityResumed(@NonNull final Activity activity) {
                 NavigationHelper.setCurrentAppCompat((AppCompatActivity) activity);
-//                if (!ConfigurationHelper.loadPreference(ConfigurationHelper.ConfigurationEntry.IsLoggedIn,false)
-//                        && !activity.getApplicationContext().getPackageName().equals("br.com.pdasolucoes.basesystem")){
-//                    NavigationHelper.showDialog(activity.getString(R.string.error_auth),
-//                            activity.getString(R.string.user_not_auth),
-//                            activity.getString(R.string.ok), new DialogInterface.OnClickListener() {
-//                        @Override
-//                        public void onClick(DialogInterface dialog, int which) {
-//                            activity.finish();
-//                        }
-//                    });
-//                }
+
+                IntentFilter filter = new IntentFilter(Service.ACTION);
+                instance.registerReceiver(receiver, filter);
             }
 
             @Override
             public void onActivityPaused(@NonNull Activity activity) {
+                getInstance().unregisterReceiver(receiver);
             }
 
             @Override
@@ -124,4 +122,15 @@ public class MyApplication extends Application implements DialogInterface.OnShow
     public void onShow(DialogInterface dialog) {
         NavigationHelper.setCurrentDialog(dialog);
     }
+
+    private final BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            int resultCode = intent.getIntExtra("resultCode", RESULT_CANCELED);
+            if (resultCode == RESULT_OK) {
+                String resultValue = intent.getStringExtra("resultValue");
+                Toast.makeText(NavigationHelper.getCurrentAppCompat(), resultValue, Toast.LENGTH_SHORT).show();
+            }
+        }
+    };
 }
