@@ -173,6 +173,7 @@ public class NetworkManager {
                     ConfigurationHelper.savePreference(ConfigurationHelper.ConfigurationEntry.UserPassword, activity.getIntent().getExtras().getString(ConfigurationHelper.ConfigurationEntry.UserPassword.getKeyName(), ""));
 
                     ConfigurationHelper.savePreference(ConfigurationHelper.ConfigurationEntry.ServerAddress, activity.getIntent().getExtras().getString(ConfigurationHelper.ConfigurationEntry.ServerAddress.getKeyName(), ""));
+                    ConfigurationHelper.savePreference(ConfigurationHelper.ConfigurationEntry.ServerAddressApi, activity.getIntent().getExtras().getString(ConfigurationHelper.ConfigurationEntry.ServerAddressApi.getKeyName(), ""));
                     ConfigurationHelper.savePreference(ConfigurationHelper.ConfigurationEntry.Directory, activity.getIntent().getExtras().getString(ConfigurationHelper.ConfigurationEntry.Directory.getKeyName(), ""));
                     ConfigurationHelper.savePreference(ConfigurationHelper.ConfigurationEntry.Store, activity.getIntent().getExtras().getString(ConfigurationHelper.ConfigurationEntry.Store.getKeyName(), ""));
                 }
