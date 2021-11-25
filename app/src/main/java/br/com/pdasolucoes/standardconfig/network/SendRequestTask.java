@@ -15,6 +15,7 @@ import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 import org.apache.http.util.EntityUtils;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.ksoap2.SoapEnvelope;
@@ -185,11 +186,8 @@ public class SendRequestTask extends AsyncTaskRunner<Void, Void, Object> {
                 HttpDelete httpDelete = new HttpDelete(baseUrlApi + "/" + action);
                 httpResp = httpClient.execute(httpDelete);
             }
-            JSONObject jsonResponse;
 
-            jsonResponse = new JSONObject(EntityUtils.toString(httpResp.getEntity()));
-
-            return jsonResponse;
+            return EntityUtils.toString(httpResp.getEntity());
         } catch (SocketTimeoutException e) {
             MessageConfiguration.ExceptionError.setExceptionErrorMessage(e.getMessage());
             return MessageConfiguration.ExceptionError;

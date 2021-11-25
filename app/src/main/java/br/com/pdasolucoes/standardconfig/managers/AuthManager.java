@@ -20,7 +20,7 @@ public class AuthManager {
         ConfigurationHelper.savePreference(ConfigurationHelper.ConfigurationEntry.RefreshToken, a.getRefreshToken());
         ConfigurationHelper.savePreference(ConfigurationHelper.ConfigurationEntry.Token, a.getRefreshToken());
 
-        long tenMinutesMilesegundos = 20000;
+        long tenMinutesMilesegundos = 600000;//10 MINUTOS
         long timeInterval = (a.getExpiration().getTime() - a.getCreated().getTime()) > tenMinutesMilesegundos ?
                 (a.getExpiration().getTime() - a.getCreated().getTime()) - tenMinutesMilesegundos :
                 (a.getExpiration().getTime() - a.getCreated().getTime());
