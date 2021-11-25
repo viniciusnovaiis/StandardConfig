@@ -39,7 +39,7 @@ public class MyApplication extends Application implements DialogInterface.OnShow
         MyApplication.instance = this;
         super.onCreate();
 
-        MultiDex.install(this);
+        //MultiDex.install(this);
 
         registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
             @Override
