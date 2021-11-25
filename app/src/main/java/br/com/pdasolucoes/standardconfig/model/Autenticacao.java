@@ -1,6 +1,7 @@
 package br.com.pdasolucoes.standardconfig.model;
 
 import java.util.Date;
+import java.util.List;
 
 public class Autenticacao {
 
@@ -9,6 +10,7 @@ public class Autenticacao {
     private Date expiration;
     private String accessToken;
     private String refreshToken;
+    private List<Erros> erros;
 
     public boolean isAuthenticated() {
         return authenticated;
@@ -48,5 +50,13 @@ public class Autenticacao {
 
     public void setRefreshToken(String refreshToken) {
         this.refreshToken = refreshToken;
+    }
+
+    public List<Erros> getErros() {
+        return erros;
+    }
+
+    public void setErros(List<Erros> erros) {
+        this.erros = erros;
     }
 }

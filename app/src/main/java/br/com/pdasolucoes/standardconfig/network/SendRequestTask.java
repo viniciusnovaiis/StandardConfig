@@ -145,15 +145,20 @@ public class SendRequestTask extends AsyncTaskRunner<Void, Void, Object> {
             String action = this.request.getAction();
 
             String baseUrlApi;
-            if (!TextUtils.isEmpty(serverApi))
+            if (!TextUtils.isEmpty(serverApi)) {
+                if (!serverApi.contains("http"))
+                    serverApi = "http://" + serverApi;
                 baseUrlApi = serverApi;
-            else
+            } else {
+                if (!baseUrl.contains("http"))
+                    baseUrl = "http://" + baseUrl;
                 baseUrlApi = baseUrl + service;
+            }
 
             HttpClient httpClient = new DefaultHttpClient();
             HttpResponse httpResp;
             if (this.request.getMethodRequest() == MethodRequest.POST) {
-                HttpPost postRequest = new HttpPost(baseUrlApi+ "/" + action);
+                HttpPost postRequest = new HttpPost(baseUrlApi + "/" + action);
                 HttpEntity entity = this.request.getRequestEntity();
                 postRequest.setEntity(entity);
                 httpResp = httpClient.execute(postRequest);

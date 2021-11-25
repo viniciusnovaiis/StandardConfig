@@ -2,21 +2,27 @@ package br.com.pdasolucoes.standardconfig.service;
 
 import android.util.Log;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.gson.Gson;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.List;
+
 import br.com.pdasolucoes.standardconfig.R;
 import br.com.pdasolucoes.standardconfig.managers.AuthManager;
 import br.com.pdasolucoes.standardconfig.managers.NetworkManager;
 import br.com.pdasolucoes.standardconfig.model.Autenticacao;
+import br.com.pdasolucoes.standardconfig.model.Erros;
 import br.com.pdasolucoes.standardconfig.network.JsonRequestBase;
 import br.com.pdasolucoes.standardconfig.network.enums.MessageConfiguration;
 import br.com.pdasolucoes.standardconfig.network.enums.MethodRequest;
 import br.com.pdasolucoes.standardconfig.network.enums.RequestInfo;
 import br.com.pdasolucoes.standardconfig.network.enums.RequestType;
 import br.com.pdasolucoes.standardconfig.utils.ConfigurationHelper;
+import br.com.pdasolucoes.standardconfig.utils.NavigationHelper;
 import br.com.pdasolucoes.standardconfig.utils.TimerVerifyToken;
 
 public class AuthenticationPost extends JsonRequestBase {
@@ -78,7 +84,25 @@ public class AuthenticationPost extends JsonRequestBase {
     @Override
     public void processResult(Object data) {
         String response = data.toString();
-        AuthManager.timerControlToken(new Gson().fromJson(response, Autenticacao.class));
+
+        AppCompatActivity appCompatActivity = NavigationHelper.getCurrentAppCompat();
+
+        if (appCompatActivity == null)
+            return;
+
+        Autenticacao a = new Gson().fromJson(response, Autenticacao.class);
+
+        if (!a.isAuthenticated()) {
+            List<Erros> erros = a.getErros();
+
+            if (erros.size() > 0) {
+                NavigationHelper.showConfirmDialog(
+                        appCompatActivity.getString(R.string.title_error),
+                        erros.get(0).getMensagem());
+            }
+            return;
+        }
+        AuthManager.timerControlToken(a);
 
     }
 
