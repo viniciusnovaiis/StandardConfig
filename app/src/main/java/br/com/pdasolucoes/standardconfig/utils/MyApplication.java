@@ -28,9 +28,18 @@ public class MyApplication extends Application implements DialogInterface.OnShow
     private static MyApplication instance;
 
     private static boolean correctVersion = false;
+    private static ResultToken resultToken;
 
     public static MyApplication getInstance() {
         return instance;
+    }
+
+    public interface ResultToken {
+        void onToken(String token);
+    }
+
+    public static void setOnResultTokeListener(ResultToken resultTokeListener) {
+        resultToken = resultTokeListener;
     }
 
     @Override
@@ -128,7 +137,7 @@ public class MyApplication extends Application implements DialogInterface.OnShow
             int resultCode = intent.getIntExtra("resultCode", RESULT_CANCELED);
             if (resultCode == RESULT_OK) {
                 String resultValue = intent.getStringExtra("resultValue");
-                Toast.makeText(NavigationHelper.getCurrentAppCompat(), resultValue, Toast.LENGTH_SHORT).show();
+                resultToken.onToken(resultValue);
             }
         }
     };

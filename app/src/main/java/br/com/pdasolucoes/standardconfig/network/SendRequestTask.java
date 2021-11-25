@@ -143,7 +143,7 @@ public class SendRequestTask extends AsyncTaskRunner<Void, Void, Object> {
             String service = ConfigurationHelper.loadPreference(ConfigurationHelper.ConfigurationEntry.Directory, "");
             String serverApi = ConfigurationHelper.loadPreference(ConfigurationHelper.ConfigurationEntry.ServerAddressApi, "");
             String action = this.request.getAction();
-
+            String token = ConfigurationHelper.loadPreference(ConfigurationHelper.ConfigurationEntry.Token, "");
             String baseUrlApi;
             if (!TextUtils.isEmpty(serverApi)) {
                 if (!serverApi.contains("http"))
@@ -160,17 +160,25 @@ public class SendRequestTask extends AsyncTaskRunner<Void, Void, Object> {
             if (this.request.getMethodRequest() == MethodRequest.POST) {
                 HttpPost postRequest = new HttpPost(baseUrlApi + "/" + action);
                 HttpEntity entity = this.request.getRequestEntity();
+                if (!TextUtils.isEmpty(token))
+                    postRequest.setHeader("Authorization", "Bearer" + " " + token);
                 postRequest.setEntity(entity);
                 httpResp = httpClient.execute(postRequest);
             } else if (this.request.getMethodRequest() == MethodRequest.GET) {
                 HttpGet geRequest = new HttpGet(baseUrlApi + "/" + action);
+                if (!TextUtils.isEmpty(token))
+                    geRequest.setHeader("Authorization", "Bearer" + " " + token);
                 httpResp = httpClient.execute(geRequest);
             } else if (this.request.getMethodRequest() == MethodRequest.PUT) {
                 HttpPut httpPut = new HttpPut(baseUrlApi + "/" + action);
+                if (!TextUtils.isEmpty(token))
+                    httpPut.setHeader("Authorization", "Bearer" + " " + token);
                 httpResp = httpClient.execute(httpPut);
             } else if (this.request.getMethodRequest() == MethodRequest.PATCH) {
                 HttpPatch patchRequest = new HttpPatch(baseUrlApi + "/" + action);
                 HttpEntity entity = this.request.getRequestEntity();
+                if (!TextUtils.isEmpty(token))
+                    patchRequest.setHeader("Authorization", "Bearer" + " " + token);
                 patchRequest.setEntity(entity);
                 httpResp = httpClient.execute(patchRequest);
             } else {
