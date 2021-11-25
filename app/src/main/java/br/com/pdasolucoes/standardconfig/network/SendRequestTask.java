@@ -1,5 +1,7 @@
 package br.com.pdasolucoes.standardconfig.network;
 
+import android.text.TextUtils;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
@@ -139,29 +141,35 @@ public class SendRequestTask extends AsyncTaskRunner<Void, Void, Object> {
 
             String baseUrl = ConfigurationHelper.loadPreference(ConfigurationHelper.ConfigurationEntry.ServerAddress, "");
             String service = ConfigurationHelper.loadPreference(ConfigurationHelper.ConfigurationEntry.Directory, "");
+            String serverApi = ConfigurationHelper.loadPreference(ConfigurationHelper.ConfigurationEntry.ServerAddressApi, "");
             String action = this.request.getAction();
 
+            String baseUrlApi;
+            if (!TextUtils.isEmpty(serverApi))
+                baseUrlApi = serverApi;
+            else
+                baseUrlApi = baseUrl + service;
 
             HttpClient httpClient = new DefaultHttpClient();
             HttpResponse httpResp;
             if (this.request.getMethodRequest() == MethodRequest.POST) {
-                HttpPost postRequest = new HttpPost(baseUrl + service + "/" + action);
+                HttpPost postRequest = new HttpPost(baseUrlApi+ "/" + action);
                 HttpEntity entity = this.request.getRequestEntity();
                 postRequest.setEntity(entity);
                 httpResp = httpClient.execute(postRequest);
             } else if (this.request.getMethodRequest() == MethodRequest.GET) {
-                HttpGet geRequest = new HttpGet(baseUrl + service + "/" + action);
+                HttpGet geRequest = new HttpGet(baseUrlApi + "/" + action);
                 httpResp = httpClient.execute(geRequest);
             } else if (this.request.getMethodRequest() == MethodRequest.PUT) {
-                HttpPut httpPut = new HttpPut(baseUrl + service + "/" + action);
+                HttpPut httpPut = new HttpPut(baseUrlApi + "/" + action);
                 httpResp = httpClient.execute(httpPut);
             } else if (this.request.getMethodRequest() == MethodRequest.PATCH) {
-                HttpPatch patchRequest = new HttpPatch(baseUrl + service + "/" + action);
+                HttpPatch patchRequest = new HttpPatch(baseUrlApi + "/" + action);
                 HttpEntity entity = this.request.getRequestEntity();
                 patchRequest.setEntity(entity);
                 httpResp = httpClient.execute(patchRequest);
             } else {
-                HttpDelete httpDelete = new HttpDelete(baseUrl + service + "/" + action);
+                HttpDelete httpDelete = new HttpDelete(baseUrlApi + "/" + action);
                 httpResp = httpClient.execute(httpDelete);
             }
             JSONObject jsonResponse;
@@ -183,7 +191,7 @@ public class SendRequestTask extends AsyncTaskRunner<Void, Void, Object> {
             return MessageConfiguration.ExceptionError;
         } catch (JSONException e) {
             MessageConfiguration.ExceptionError.setExceptionErrorMessage(e.getMessage());
-            return  MessageConfiguration.ExceptionError;
+            return MessageConfiguration.ExceptionError;
         }
     }
 

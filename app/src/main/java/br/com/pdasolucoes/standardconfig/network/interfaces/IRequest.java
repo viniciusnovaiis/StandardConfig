@@ -51,4 +51,5 @@ public interface IRequest extends IAsyncTaskCallback<Void, Object> {
 
     SoapObject getRequestSoapObject();
 
+
 }

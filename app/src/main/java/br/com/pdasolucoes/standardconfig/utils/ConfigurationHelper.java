@@ -69,6 +69,7 @@ public class ConfigurationHelper {
 
     public enum ConfigurationEntry {
         ServerAddress(Catalog.Credentials, "SERVERADDRESS"),
+        ServerAddressApi(Catalog.Credentials, "SERVERADDRESSAPI"),
         Directory(Catalog.Credentials, "DIRECTORY"),
         Store(Catalog.Credentials, "STORE"),
         UserName(Catalog.Authentication, "USERNAME"),

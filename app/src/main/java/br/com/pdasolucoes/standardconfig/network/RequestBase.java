@@ -222,4 +222,5 @@ public abstract class RequestBase implements IRequest {
     public MethodRequest getMethodRequest() {
         return this.getRequestInfo().getMethodRequest();
     }
+
 }

@@ -20,6 +20,7 @@ public class RequestInfo {
     private Class<?> objectClass;
     private MarshalType[] marshal;
     private String objectName;
+    private String url;
     private int timeout;
     private boolean objectList;
     private boolean isUniqueReturn;
@@ -180,5 +181,9 @@ public class RequestInfo {
 
     public MethodRequest getMethodRequest() {
         return methodRequest;
+    }
+
+    public String getUrl() {
+        return url;
     }
 }
