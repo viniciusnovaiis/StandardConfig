@@ -18,7 +18,7 @@ public class AuthManager {
     public static void timerControlToken(Autenticacao a) {
 
         ConfigurationHelper.savePreference(ConfigurationHelper.ConfigurationEntry.RefreshToken, a.getRefreshToken());
-        ConfigurationHelper.savePreference(ConfigurationHelper.ConfigurationEntry.Token, a.getRefreshToken());
+        ConfigurationHelper.savePreference(ConfigurationHelper.ConfigurationEntry.Token, a.getAccessToken());
 
         long tenMinutesMilesegundos = 600000;//10 MINUTOS
         long timeInterval = (a.getExpiration().getTime() - a.getCreated().getTime()) > tenMinutesMilesegundos ?
