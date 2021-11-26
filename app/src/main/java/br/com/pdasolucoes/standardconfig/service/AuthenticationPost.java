@@ -31,6 +31,15 @@ public class AuthenticationPost extends JsonRequestBase {
     private final String login;
     private final String password;
     private byte[] passwordBinary;
+    private static Authentication authentication;
+
+    public interface Authentication {
+        void onAuthentication(Autenticacao a);
+    }
+
+    public static void setOnAuthenticationListener(Authentication authenticationListener) {
+        AuthenticationPost.authentication = authenticationListener;
+    }
 
     public AuthenticationPost(String login, String password, byte[] passwordBinary) {
 
@@ -103,6 +112,7 @@ public class AuthenticationPost extends JsonRequestBase {
             return;
         }
         AuthManager.timerControlToken(a);
+        authentication.onAuthentication(a);
 
     }
 
