@@ -42,8 +42,10 @@ public class AuthenticationGet extends JsonRequestBase {
     @Override
     public void processResult(Object data) {
 
+
+
         try {
-            ConfigurationHelper.savePreference(ConfigurationHelper.ConfigurationEntry.Token, ((JSONObject) data).get("accessToken").toString());
+            ConfigurationHelper.savePreference(ConfigurationHelper.ConfigurationEntry.Token, new JSONObject(data.toString()).get("accessToken").toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }

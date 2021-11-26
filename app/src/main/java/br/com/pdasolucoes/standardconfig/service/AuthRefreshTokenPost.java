@@ -26,8 +26,8 @@ public class AuthRefreshTokenPost extends JsonRequestBase {
 
         JSONObject jsonObject = new JSONObject();
 
-        jsonObject.put("login", ConfigurationHelper.loadPreference(ConfigurationHelper.ConfigurationEntry.UserLogin,""));
-        jsonObject.put("refreshToken", ConfigurationHelper.loadPreference(ConfigurationHelper.ConfigurationEntry.RefreshToken,""));
+        jsonObject.put("login", ConfigurationHelper.loadPreference(ConfigurationHelper.ConfigurationEntry.UserLogin, ""));
+        jsonObject.put("refreshToken", ConfigurationHelper.loadPreference(ConfigurationHelper.ConfigurationEntry.RefreshToken, ""));
 
         return jsonObject;
     }
@@ -45,20 +45,22 @@ public class AuthRefreshTokenPost extends JsonRequestBase {
     public void processResult(Object data) {
 
         String message = "";
-        if (((JSONObject) data).has("Message")) {
-            try {
-                message = ((JSONObject) data).getString("Message");
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+        try {
+            if (new JSONObject(data.toString()).has("Message")){
 
-            if (message.equals("Token inativo!") || message.equals("Refresh token inativo!")) {
-                NetworkManager.sendRequest(new AuthenticationPost(
-                        ConfigurationHelper.loadPreference(ConfigurationHelper.ConfigurationEntry.UserLogin, ""),
-                        ConfigurationHelper.loadPreference(ConfigurationHelper.ConfigurationEntry.UserPassword, "")
-                ));
-                return;
+                message = new JSONObject(data.toString()).getString("Message");
+
+
+                if (message.equals("Token inativo!") || message.equals("Refresh token inativo!")) {
+                    NetworkManager.sendRequest(new AuthenticationPost(
+                            ConfigurationHelper.loadPreference(ConfigurationHelper.ConfigurationEntry.UserLogin, ""),
+                            ConfigurationHelper.loadPreference(ConfigurationHelper.ConfigurationEntry.UserPassword, "")
+                    ));
+                    return;
+                }
             }
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
 
         AuthManager.timerControlToken(new Gson().fromJson(data.toString(), Autenticacao.class));
