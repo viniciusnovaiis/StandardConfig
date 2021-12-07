@@ -148,6 +148,8 @@ public class NavigationHelper {
         if (msg != -1)
             builder.setMessage(msg);
 
+        builder.setCancelable(false);
+
         if (positive != null) {
             builder.setPositiveButton(strPositive, positive);
         } else {
@@ -190,6 +192,7 @@ public class NavigationHelper {
         AlertDialog.Builder builder = new AlertDialog.Builder(appCompatActivity);
         builder.setTitle(title);
         builder.setMessage(msg);
+        builder.setCancelable(false);
 
         if (positive != null) {
             builder.setPositiveButton(strPositive, positive);
@@ -225,6 +228,7 @@ public class NavigationHelper {
         AlertDialog.Builder builder = new AlertDialog.Builder(appCompatActivity);
         builder.setTitle(title);
         builder.setMessage(msg);
+        builder.setCancelable(false);
 
         if (positive != null) {
             builder.setPositiveButton(strPositive, positive);
