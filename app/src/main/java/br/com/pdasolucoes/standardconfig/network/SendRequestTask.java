@@ -172,8 +172,10 @@ public class SendRequestTask extends AsyncTaskRunner<Void, Void, Object> {
                 httpResp = httpClient.execute(geRequest);
             } else if (this.request.getMethodRequest() == MethodRequest.PUT) {
                 HttpPut httpPut = new HttpPut(baseUrlApi + "/" + action);
+                HttpEntity entity = this.request.getRequestEntity();
                 if (!TextUtils.isEmpty(token))
                     httpPut.setHeader("Authorization", "Bearer" + " " + token);
+                httpPut.setEntity(entity);
                 httpResp = httpClient.execute(httpPut);
             } else if (this.request.getMethodRequest() == MethodRequest.PATCH) {
                 HttpPatch patchRequest = new HttpPatch(baseUrlApi + "/" + action);
@@ -184,6 +186,8 @@ public class SendRequestTask extends AsyncTaskRunner<Void, Void, Object> {
                 httpResp = httpClient.execute(patchRequest);
             } else {
                 HttpDelete httpDelete = new HttpDelete(baseUrlApi + "/" + action);
+                if (!TextUtils.isEmpty(token))
+                    httpDelete.setHeader("Authorization", "Bearer" + " " + token);
                 httpResp = httpClient.execute(httpDelete);
             }
 
