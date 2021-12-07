@@ -2,6 +2,7 @@ package br.com.pdasolucoes.standardconfig.network;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.entity.StringEntity;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -13,9 +14,15 @@ public abstract class JsonRequestBase extends RequestBase {
     public HttpEntity getRequestEntity() throws UnsupportedEncodingException, JSONException {
         String requestContent = "";
         JSONObject requestBody = this.getBody();
+
         if (requestBody != null) {
+            JSONArray requestBodyArray = requestBody.getJSONArray("array");
             requestContent = requestBody.toString();
+            if (requestBodyArray.length() > 0) {
+                requestContent = requestBodyArray.toString();
+            }
         }
+
 
         StringEntity entity = new StringEntity(requestContent, "UTF-8");
         entity.setContentType("application/json");

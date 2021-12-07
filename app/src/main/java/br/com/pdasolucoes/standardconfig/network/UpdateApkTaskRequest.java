@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import br.com.pdasolucoes.standardconfig.R;
@@ -26,6 +28,7 @@ public class UpdateApkTaskRequest extends JsonRequestBase {
     public JSONObject getBody() {
         return null;
     }
+
 
     @Override
     protected RequestInfo getRequestInfo() {
