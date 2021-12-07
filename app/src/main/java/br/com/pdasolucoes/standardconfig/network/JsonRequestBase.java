@@ -16,10 +16,9 @@ public abstract class JsonRequestBase extends RequestBase {
         JSONObject requestBody = this.getBody();
 
         if (requestBody != null) {
-            JSONArray requestBodyArray = requestBody.getJSONArray("array");
             requestContent = requestBody.toString();
-            if (requestBodyArray.length() > 0) {
-                requestContent = requestBodyArray.toString();
+            if (requestBody.has("array")) {
+                requestContent = requestBody.getJSONArray("array").toString();
             }
         }
 
