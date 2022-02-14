@@ -78,6 +78,7 @@ public class ConfigurationHelper {
         UserNameFilial(Catalog.Authentication, "USERNAMEFILIAL"),
         UserCodeProfile(Catalog.Authentication, "USERCODEPROFILE"),
         UserNameProfile(Catalog.Authentication, "USERNAMEPROFILE"),
+        UserLeader(Catalog.Authentication, "USERLEADER"),
         UserLogin(Catalog.Authentication, "USERLOGIN"),
         UserPassword(Catalog.Authentication, "USERPASSWORD"),
         IsLoggedIn(Catalog.Authentication, "ISLOGGEDIN"),
