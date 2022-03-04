@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                NetworkManager.sendRequest(new AuthenticationPost("102030","102030"));
+                NetworkManager.sendRequest(new AuthenticationPost("102030","102030",""));
 
             }
         });

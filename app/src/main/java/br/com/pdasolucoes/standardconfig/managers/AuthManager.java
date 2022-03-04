@@ -60,11 +60,11 @@ public class AuthManager {
         MyApplication.getInstance().startService(i);
     }
 
-    public static void AuthApi(String login, String password) {
-        NetworkManager.sendRequest(new AuthenticationPost(login, password));
+    public static void AuthApi(String login, String password, String serveApi) {
+        NetworkManager.sendRequest(new AuthenticationPost(login, password, serveApi));
     }
 
-    public static void AuthApi(String login, String password, byte[] passwordBinary) {
-        NetworkManager.sendRequest(new AuthenticationPost(login, password, passwordBinary));
+    public static void AuthApi(String login, String password, byte[] passwordBinary, String serverApi) {
+        NetworkManager.sendRequest(new AuthenticationPost(login, password, passwordBinary, serverApi));
     }
 }

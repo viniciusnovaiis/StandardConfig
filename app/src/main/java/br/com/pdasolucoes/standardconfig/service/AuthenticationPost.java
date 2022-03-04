@@ -42,26 +42,24 @@ public class AuthenticationPost extends JsonRequestBase {
         AuthenticationPost.authentication = authenticationListener;
     }
 
-    public AuthenticationPost(String login, String password, byte[] passwordBinary) {
+    public AuthenticationPost(String login, String password, byte[] passwordBinary, String serverApi) {
 
         this.login = login;
         this.password = password;
         this.passwordBinary = passwordBinary;
 
-        ConfigurationHelper.savePreference(ConfigurationHelper.ConfigurationEntry.ServerAddress, "http://10.0.2.2");
-        ConfigurationHelper.savePreference(ConfigurationHelper.ConfigurationEntry.Directory, ":40001");
+        ConfigurationHelper.savePreference(ConfigurationHelper.ConfigurationEntry.ServerAddressApi, serverApi);
 
         ConfigurationHelper.savePreference(ConfigurationHelper.ConfigurationEntry.UserLogin, login);
         ConfigurationHelper.savePreference(ConfigurationHelper.ConfigurationEntry.UserPassword, password);
     }
 
-    public AuthenticationPost(String login, String password) {
+    public AuthenticationPost(String login, String password,  String serverApi) {
 
         this.login = login;
         this.password = password;
 
-        ConfigurationHelper.savePreference(ConfigurationHelper.ConfigurationEntry.ServerAddress, "http://10.0.2.2");
-        ConfigurationHelper.savePreference(ConfigurationHelper.ConfigurationEntry.Directory, ":40001");
+        ConfigurationHelper.savePreference(ConfigurationHelper.ConfigurationEntry.ServerAddressApi, serverApi);
 
         ConfigurationHelper.savePreference(ConfigurationHelper.ConfigurationEntry.UserLogin, login);
         ConfigurationHelper.savePreference(ConfigurationHelper.ConfigurationEntry.UserPassword, password);

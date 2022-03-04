@@ -54,7 +54,8 @@ public class AuthRefreshTokenPost extends JsonRequestBase {
                 if (message.equals("Token inativo!") || message.equals("Refresh token inativo!")) {
                     NetworkManager.sendRequest(new AuthenticationPost(
                             ConfigurationHelper.loadPreference(ConfigurationHelper.ConfigurationEntry.UserLogin, ""),
-                            ConfigurationHelper.loadPreference(ConfigurationHelper.ConfigurationEntry.UserPassword, "")
+                            ConfigurationHelper.loadPreference(ConfigurationHelper.ConfigurationEntry.UserPassword, ""),
+                            ConfigurationHelper.loadPreference(ConfigurationHelper.ConfigurationEntry.ServerAddressApi, "")
                     ));
                     return;
                 }
