@@ -16,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.multidex.MultiDex;
+import androidx.multidex.MultiDexApplication;
 
 import br.com.pdasolucoes.standardconfig.R;
 import br.com.pdasolucoes.standardconfig.managers.AuthManager;
@@ -24,7 +25,7 @@ import br.com.pdasolucoes.standardconfig.managers.NetworkManager;
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
 
-public class MyApplication extends Application implements DialogInterface.OnShowListener {
+public class MyApplication extends MultiDexApplication implements DialogInterface.OnShowListener {
 
     private static MyApplication instance;
 
