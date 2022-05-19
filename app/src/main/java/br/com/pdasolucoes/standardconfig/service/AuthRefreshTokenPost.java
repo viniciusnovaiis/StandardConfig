@@ -44,9 +44,9 @@ public class AuthRefreshTokenPost extends JsonRequestBase {
     @Override
     public void processResult(Object data) {
 
-        String message = "";
+        String message;
         try {
-            if (new JSONObject(data.toString()).has("Message")){
+            if (new JSONObject(data.toString()).has("Message")) {
 
                 message = new JSONObject(data.toString()).getString("Message");
 
@@ -60,11 +60,12 @@ public class AuthRefreshTokenPost extends JsonRequestBase {
                     return;
                 }
             }
-        } catch (JSONException e) {
+
+            AuthManager.timerControlToken(new Gson().fromJson(data.toString(), Autenticacao.class));
+
+        } catch (Exception e) {
             e.printStackTrace();
         }
-
-        AuthManager.timerControlToken(new Gson().fromJson(data.toString(), Autenticacao.class));
     }
 
     @Override
