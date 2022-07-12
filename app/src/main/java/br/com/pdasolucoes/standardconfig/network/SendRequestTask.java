@@ -32,6 +32,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.SocketTimeoutException;
+import java.util.Objects;
 
 import br.com.pdasolucoes.standardconfig.enums.MarshalType;
 import br.com.pdasolucoes.standardconfig.managers.NetworkManager;
@@ -206,6 +207,11 @@ public class SendRequestTask extends AsyncTaskRunner<Void, Void, Object> {
             return MessageConfiguration.ExceptionError;
         } catch (JSONException e) {
             MessageConfiguration.ExceptionError.setExceptionErrorMessage(e.getMessage());
+            return MessageConfiguration.ExceptionError;
+        }catch (IllegalArgumentException e){
+            MessageConfiguration.ExceptionError.
+                    setExceptionErrorMessage(Objects.requireNonNull(e.getMessage()).concat(
+                    "Volte e inicie a aplicação novamente"));
             return MessageConfiguration.ExceptionError;
         }
     }
