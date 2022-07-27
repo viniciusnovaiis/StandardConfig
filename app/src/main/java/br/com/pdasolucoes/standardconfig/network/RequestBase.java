@@ -83,14 +83,19 @@ public abstract class RequestBase implements IRequest {
             return;
         }
 
-        this.progressDialog = new ProgressDialog(context);
-        this.progressDialog.setTitle(R.string.dialog_progress_title);
-        this.progressDialog.setCancelable(false);
-        this.progressDialog.setMessage(message);
+        try {
+            this.progressDialog = new ProgressDialog(context);
+            this.progressDialog.setTitle(R.string.dialog_progress_title);
+            this.progressDialog.setCancelable(false);
+            this.progressDialog.setMessage(message);
 
-        this.progressDialogContext = new WeakReference<>(context);
+            this.progressDialogContext = new WeakReference<>(context);
 
-        this.progressDialog.show();
+            this.progressDialog.show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void closeProgressDialog() {
