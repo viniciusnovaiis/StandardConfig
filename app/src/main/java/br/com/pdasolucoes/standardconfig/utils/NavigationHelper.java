@@ -113,7 +113,7 @@ public class NavigationHelper {
                     fragmentManager
                             .beginTransaction()
                             .replace(containerId, fragment, tag.getTag())
-                            .addToBackStack(tag.getTag()).commit();
+                            .addToBackStack(tag.getTag()).commitAllowingStateLoss();
                 }
             } else {
                 if (containerId == null) {
@@ -153,23 +153,13 @@ public class NavigationHelper {
         if (positive != null) {
             builder.setPositiveButton(strPositive, positive);
         } else {
-            builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                }
-            });
+            builder.setPositiveButton("Ok", (dialog, which) -> dialog.dismiss());
         }
 
         if (negative != null && strNegative != -1) {
             builder.setNegativeButton(strNegative, negative);
         } else {
-            builder.setNeutralButton(strNegative, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                }
-            });
+            builder.setNeutralButton(strNegative, (dialog, which) -> dialog.dismiss());
         }
 
         if (neutral != null && strNeutral != -1) {
@@ -197,12 +187,7 @@ public class NavigationHelper {
         if (positive != null) {
             builder.setPositiveButton(strPositive, positive);
         } else {
-            builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                }
-            });
+            builder.setPositiveButton("Ok", (dialog, which) -> dialog.dismiss());
         }
 
         if (negative != null && strNegative != -1) {
@@ -233,12 +218,7 @@ public class NavigationHelper {
         if (positive != null) {
             builder.setPositiveButton(strPositive, positive);
         } else {
-            builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                }
-            });
+            builder.setPositiveButton("Ok", (dialog, which) -> dialog.dismiss());
         }
 
         builder.create().show();
@@ -279,10 +259,6 @@ public class NavigationHelper {
         builderSingle.setTitle(appCompatActivity.getString(title));
 
         boolean[] checkedItems = new boolean[list.length];
-
-        for (int i = 0; i < checkedItems.length; i++) {
-            checkedItems[i] = false;
-        }
 
         builderSingle.setMultiChoiceItems(list, checkedItems, select);
         builderSingle.setNegativeButton("Cancelar", negative);
@@ -331,10 +307,6 @@ public class NavigationHelper {
 
         FragmentManager fragmentManager = appCompatActivity
                 .getSupportFragmentManager();
-
-        if (fragmentManager == null)
-            return;
-
 
         fragmentManager.popBackStackImmediate();
     }

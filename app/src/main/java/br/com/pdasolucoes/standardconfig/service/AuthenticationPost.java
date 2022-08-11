@@ -54,7 +54,7 @@ public class AuthenticationPost extends JsonRequestBase {
         ConfigurationHelper.savePreference(ConfigurationHelper.ConfigurationEntry.UserPassword, password);
     }
 
-    public AuthenticationPost(String login, String password,  String serverApi) {
+    public AuthenticationPost(String login, String password, String serverApi) {
 
         this.login = login;
         this.password = password;
@@ -98,20 +98,26 @@ public class AuthenticationPost extends JsonRequestBase {
         if (appCompatActivity == null)
             return;
 
-        Autenticacao a = new Gson().fromJson(response, Autenticacao.class);
+        try {
 
-        if (!a.isAuthenticated()) {
-            List<Erros> erros = a.getErros();
+            Autenticacao a = new Gson().fromJson(response, Autenticacao.class);
 
-            if (erros.size() > 0) {
-                NavigationHelper.showConfirmDialog(
-                        appCompatActivity.getString(R.string.title_error),
-                        erros.get(0).getMensagem());
+            if (!a.isAuthenticated()) {
+                List<Erros> erros = a.getErros();
+
+                if (erros.size() > 0) {
+                    NavigationHelper.showConfirmDialog(
+                            appCompatActivity.getString(R.string.title_error),
+                            erros.get(0).getMensagem());
+                }
+                return;
             }
-            return;
+            AuthManager.timerControlToken(a);
+            authentication.onAuthentication(a);
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
-        AuthManager.timerControlToken(a);
-        authentication.onAuthentication(a);
 
     }
 
