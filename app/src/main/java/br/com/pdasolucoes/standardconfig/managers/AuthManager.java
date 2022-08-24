@@ -58,7 +58,7 @@ public class AuthManager {
 
         Intent i = new Intent(MyApplication.getInstance(), Service.class);
         i.putExtra("token", ConfigurationHelper.loadPreference(ConfigurationHelper.ConfigurationEntry.Token, ""));
-        
+
         MyApplication.getInstance().startService(i);
 
     }
