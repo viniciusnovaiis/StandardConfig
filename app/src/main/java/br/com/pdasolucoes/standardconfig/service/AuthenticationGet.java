@@ -51,8 +51,6 @@ public class AuthenticationGet extends JsonRequestBase {
             e.printStackTrace();
         }
 
-        AuthManager.launchService();
-
     }
 
     @Override
