@@ -58,12 +58,9 @@ public class AuthManager {
 
         Intent i = new Intent(MyApplication.getInstance(), Service.class);
         i.putExtra("token", ConfigurationHelper.loadPreference(ConfigurationHelper.ConfigurationEntry.Token, ""));
+        
+        MyApplication.getInstance().startService(i);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            MyApplication.getInstance().startForegroundService(i);
-        } else {
-            MyApplication.getInstance().startService(i);
-        }
     }
 
     public static void AuthApi(String login, String password, String serveApi) {
