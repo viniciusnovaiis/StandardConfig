@@ -56,10 +56,12 @@ public class AuthManager {
 
     public static void launchService() {
 
-        Intent i = new Intent(MyApplication.getInstance(), Service.class);
-        i.putExtra("token", ConfigurationHelper.loadPreference(ConfigurationHelper.ConfigurationEntry.Token, ""));
+        if (!ConfigurationHelper.loadPreference(ConfigurationHelper.ConfigurationEntry.Token, "").equals("")) {
+            Intent i = new Intent(MyApplication.getInstance(), Service.class);
+            i.putExtra("token", ConfigurationHelper.loadPreference(ConfigurationHelper.ConfigurationEntry.Token, ""));
 
-        MyApplication.getInstance().startService(i);
+            MyApplication.getInstance().startService(i);
+        }
 
     }
 
