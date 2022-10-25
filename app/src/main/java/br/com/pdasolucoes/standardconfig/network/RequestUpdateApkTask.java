@@ -2,6 +2,7 @@ package br.com.pdasolucoes.standardconfig.network;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
@@ -61,7 +62,9 @@ public class RequestUpdateApkTask extends AsyncTaskRunner<Void, Void, Object> {
             URL url = new URL(baseUrl + service + "/" + action);
             HttpURLConnection c = (HttpURLConnection) url.openConnection();
 
-            File PATH = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+            ContextWrapper contextWrapper = new ContextWrapper(context);
+            //File PATH = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+            File PATH = contextWrapper.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
             File file = new File(PATH, Environment.DIRECTORY_DOWNLOADS);
             if (!file.exists())
                 file.mkdirs();
