@@ -51,21 +51,12 @@ public class UpdateApkTaskRequest extends JsonRequestBase {
             return;
 
         JSONObject uri = (JSONObject) data;
-        Intent intent;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            Uri apkUri = FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".provider",
-                    new File(Uri.parse(uri.optString("uri")).getPath()));
-            intent = new Intent(Intent.ACTION_INSTALL_PACKAGE);
-            intent.setData(apkUri);
-            intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        }else {
-
-            intent = new Intent(Intent.ACTION_VIEW);
-            intent.setDataAndType(Uri.parse(uri.optString("uri")), "application/vnd.android.package-archive");
-            intent.putExtra(Intent.EXTRA_NOT_UNKNOWN_SOURCE, true);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        }
+        //Intent intent = new Intent(Intent.ACTION_VIEW);
+        Intent intent = new Intent(Intent.ACTION_INSTALL_PACKAGE);
+        intent.setDataAndType(Uri.parse(uri.optString("uri")), "application/vnd.android.package-archive");
+        intent.putExtra(Intent.EXTRA_NOT_UNKNOWN_SOURCE, true);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
         context.startActivity(intent);
     }
