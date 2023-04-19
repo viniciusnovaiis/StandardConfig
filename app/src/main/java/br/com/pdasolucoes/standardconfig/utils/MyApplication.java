@@ -1,16 +1,20 @@
 package br.com.pdasolucoes.standardconfig.utils;
 
+import static android.app.Activity.RESULT_CANCELED;
+import static android.app.Activity.RESULT_OK;
+
 import android.app.Activity;
-import android.app.Application;
 import android.content.BroadcastReceiver;
+import android.content.ComponentCallbacks;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,10 +24,6 @@ import androidx.multidex.MultiDexApplication;
 
 import br.com.pdasolucoes.standardconfig.R;
 import br.com.pdasolucoes.standardconfig.managers.AuthManager;
-import br.com.pdasolucoes.standardconfig.managers.NetworkManager;
-
-import static android.app.Activity.RESULT_CANCELED;
-import static android.app.Activity.RESULT_OK;
 
 public class MyApplication extends MultiDexApplication implements DialogInterface.OnShowListener {
 
@@ -31,17 +31,44 @@ public class MyApplication extends MultiDexApplication implements DialogInterfac
 
     private static boolean correctVersion = false;
     private static ResultToken resultToken;
+    private static FinishTimeSession finishTimeSession;
 
     public static MyApplication getInstance() {
         return instance;
     }
 
+    private static final Handler disconnectHandler = new Handler(msg -> {
+        NavigationHelper.showToastShort(R.string.sessao_encerrada);
+        return true;
+    });
+
     public interface ResultToken {
         void onToken(String token);
     }
 
+    public interface FinishTimeSession {
+        void onFinishTime();
+    }
+
+    private static final Runnable disconnectCallback = () -> finishTimeSession.onFinishTime();
+
     public static void setOnResultTokeListener(ResultToken resultTokeListener) {
         resultToken = resultTokeListener;
+    }
+
+    public static void setOnFinishTimeSessionListener(FinishTimeSession finishTimeSessionListener) {
+        finishTimeSession = finishTimeSessionListener;
+    }
+
+    public void stopDisconnectTimer() {
+        disconnectHandler.removeCallbacks(disconnectCallback);
+    }
+
+    public static void resetDisconnectTimer() {
+        disconnectHandler.removeCallbacks(disconnectCallback);
+        if (ConfigurationHelper.loadPreference(ConfigurationHelper.ConfigurationEntry.TimeOutSession, 0) > 0)
+            disconnectHandler.postDelayed(disconnectCallback,
+                    (long) ConfigurationHelper.loadPreference(ConfigurationHelper.ConfigurationEntry.TimeOutSession, 0) * 60 * 1000);
     }
 
     @Override
@@ -52,8 +79,11 @@ public class MyApplication extends MultiDexApplication implements DialogInterfac
         MultiDex.install(this);
 
         registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
+
             @Override
             public void onActivityCreated(@NonNull Activity activity, @Nullable Bundle savedInstanceState) {
+
+
                 AuthManager.launchService();
                 NavigationHelper.setCurrentAppCompat((AppCompatActivity) activity);
 
@@ -61,11 +91,14 @@ public class MyApplication extends MultiDexApplication implements DialogInterfac
 
             @Override
             public void onActivityStarted(@NonNull Activity activity) {
+
             }
 
             @Override
             public void onActivityResumed(@NonNull final Activity activity) {
                 NavigationHelper.setCurrentAppCompat((AppCompatActivity) activity);
+
+                resetDisconnectTimer();
 
                 IntentFilter filter = new IntentFilter(Service.ACTION);
                 instance.registerReceiver(receiver, filter);
@@ -78,6 +111,7 @@ public class MyApplication extends MultiDexApplication implements DialogInterfac
 
             @Override
             public void onActivityStopped(@NonNull Activity activity) {
+                stopDisconnectTimer();
             }
 
             @Override
@@ -90,9 +124,23 @@ public class MyApplication extends MultiDexApplication implements DialogInterfac
                 clearReferences(activity);
             }
 
+        });
+
+        registerComponentCallbacks(new ComponentCallbacks() {
+            @Override
+            public void onConfigurationChanged(@NonNull Configuration configuration) {
+
+            }
+
+            @Override
+            public void onLowMemory() {
+
+            }
+
 
         });
     }
+
 
     private void clearReferences(Activity activity) {
         Activity currActivity = NavigationHelper.getCurrentAppCompat();

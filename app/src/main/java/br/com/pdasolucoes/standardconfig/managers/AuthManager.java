@@ -50,6 +50,7 @@ public class AuthManager {
         ConfigurationHelper.savePreference(ConfigurationHelper.ConfigurationEntry.UserNameFilial, "");
         ConfigurationHelper.savePreference(ConfigurationHelper.ConfigurationEntry.UserCodeProfile, -1);
         ConfigurationHelper.savePreference(ConfigurationHelper.ConfigurationEntry.UserNameProfile, "");
+        ConfigurationHelper.savePreference(ConfigurationHelper.ConfigurationEntry.TimeOutSession, 0);
         ConfigurationHelper.savePreference(ConfigurationHelper.ConfigurationEntry.UserLogin, "");
         ConfigurationHelper.savePreference(ConfigurationHelper.ConfigurationEntry.IsLoggedIn, false);
     }
