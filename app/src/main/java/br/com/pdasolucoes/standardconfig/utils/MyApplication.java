@@ -31,45 +31,19 @@ public class MyApplication extends MultiDexApplication implements DialogInterfac
 
     private static boolean correctVersion = false;
     private static ResultToken resultToken;
-    private static FinishTimeSession finishTimeSession;
 
     public static MyApplication getInstance() {
         return instance;
     }
 
-    private static final Handler disconnectHandler = new Handler(msg -> {
-        NavigationHelper.showToastShort(R.string.sessao_encerrada);
-        return true;
-    });
-
     public interface ResultToken {
         void onToken(String token);
     }
-
-    public interface FinishTimeSession {
-        void onFinishTime();
-    }
-
-    private static final Runnable disconnectCallback = () -> finishTimeSession.onFinishTime();
 
     public static void setOnResultTokeListener(ResultToken resultTokeListener) {
         resultToken = resultTokeListener;
     }
 
-    public static void setOnFinishTimeSessionListener(FinishTimeSession finishTimeSessionListener) {
-        finishTimeSession = finishTimeSessionListener;
-    }
-
-    public void stopDisconnectTimer() {
-        disconnectHandler.removeCallbacks(disconnectCallback);
-    }
-
-    public static void resetDisconnectTimer() {
-        disconnectHandler.removeCallbacks(disconnectCallback);
-        if (ConfigurationHelper.loadPreference(ConfigurationHelper.ConfigurationEntry.TimeOutSession, 0) > 0)
-            disconnectHandler.postDelayed(disconnectCallback,
-                    (long) ConfigurationHelper.loadPreference(ConfigurationHelper.ConfigurationEntry.TimeOutSession, 0) * 60 * 1000);
-    }
 
     @Override
     public void onCreate() {
@@ -98,8 +72,6 @@ public class MyApplication extends MultiDexApplication implements DialogInterfac
             public void onActivityResumed(@NonNull final Activity activity) {
                 NavigationHelper.setCurrentAppCompat((AppCompatActivity) activity);
 
-                resetDisconnectTimer();
-
                 IntentFilter filter = new IntentFilter(Service.ACTION);
                 instance.registerReceiver(receiver, filter);
             }
@@ -111,7 +83,7 @@ public class MyApplication extends MultiDexApplication implements DialogInterfac
 
             @Override
             public void onActivityStopped(@NonNull Activity activity) {
-                stopDisconnectTimer();
+
             }
 
             @Override
@@ -126,19 +98,6 @@ public class MyApplication extends MultiDexApplication implements DialogInterfac
 
         });
 
-        registerComponentCallbacks(new ComponentCallbacks() {
-            @Override
-            public void onConfigurationChanged(@NonNull Configuration configuration) {
-
-            }
-
-            @Override
-            public void onLowMemory() {
-
-            }
-
-
-        });
     }
 
 
