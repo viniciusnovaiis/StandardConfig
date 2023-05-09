@@ -172,6 +172,7 @@ public class NetworkManager {
                     ConfigurationHelper.savePreference(ConfigurationHelper.ConfigurationEntry.Token, activity.getIntent().getExtras().getString(ConfigurationHelper.ConfigurationEntry.Token.getKeyName(), ""));
                     ConfigurationHelper.savePreference(ConfigurationHelper.ConfigurationEntry.RefreshToken, activity.getIntent().getExtras().getString(ConfigurationHelper.ConfigurationEntry.RefreshToken.getKeyName(), ""));
                     ConfigurationHelper.savePreference(ConfigurationHelper.ConfigurationEntry.UserPassword, activity.getIntent().getExtras().getString(ConfigurationHelper.ConfigurationEntry.UserPassword.getKeyName(), ""));
+                    ConfigurationHelper.savePreference(ConfigurationHelper.ConfigurationEntry.TimeOutSession, activity.getIntent().getExtras().getInt(ConfigurationHelper.ConfigurationEntry.TimeOutSession.getKeyName(), 0));
 
                     ConfigurationHelper.savePreference(ConfigurationHelper.ConfigurationEntry.ServerAddress, activity.getIntent().getExtras().getString(ConfigurationHelper.ConfigurationEntry.ServerAddress.getKeyName(), ""));
                     ConfigurationHelper.savePreference(ConfigurationHelper.ConfigurationEntry.ServerAddressApi, activity.getIntent().getExtras().getString(ConfigurationHelper.ConfigurationEntry.ServerAddressApi.getKeyName(), ""));
