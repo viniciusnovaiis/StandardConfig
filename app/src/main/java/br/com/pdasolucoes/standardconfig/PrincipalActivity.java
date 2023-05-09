@@ -1,20 +1,16 @@
 package br.com.pdasolucoes.standardconfig;
 
-import android.app.Activity;
 import android.content.res.Configuration;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import br.com.pdasolucoes.standardconfig.managers.NetworkManager;
-import br.com.pdasolucoes.standardconfig.utils.ConfigurationHelper;
-import br.com.pdasolucoes.standardconfig.utils.NavigationHelper;
+import br.com.pdasolucoes.standardconfig.utils.MyApplication;
 
-public abstract class PrincipalActivity extends AppCompatActivity {
+public abstract class PrincipalActivity extends AppCompatActivity implements MyApplication.FinishTimeSession {
 
     private LinearLayout activityContainer;
     private View viewHeader;
@@ -22,6 +18,9 @@ public abstract class PrincipalActivity extends AppCompatActivity {
 
     @Override
     public void setContentView(int layoutResID) {
+
+        MyApplication.setOnFinishTimeSessionListener(this);
+
         LinearLayout llparentView = (LinearLayout) getLayoutInflater().inflate(R.layout.principal_activity, null);
         initViews(llparentView);
         View view = getLayoutInflater().inflate(layoutResID, activityContainer, true);
@@ -37,6 +36,11 @@ public abstract class PrincipalActivity extends AppCompatActivity {
 
         NetworkManager.updateInitialViews(view);
 
+    }
+
+    @Override
+    public void onUserInteraction() {
+        MyApplication.resetDisconnectTimer();
     }
 
     @Override
@@ -56,5 +60,16 @@ public abstract class PrincipalActivity extends AppCompatActivity {
                 imageView.setVisibility(View.VISIBLE);
             }
         }
+    }
+
+    @Override
+    public void onFinishTime() {
+        try {
+            NetworkManager.openApk("br.com.pdasolucoes.basesystem");
+        } catch (Exception ignored) {
+
+        }
+        finish();
+
     }
 }
