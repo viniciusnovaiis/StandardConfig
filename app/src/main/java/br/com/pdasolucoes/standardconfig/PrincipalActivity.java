@@ -17,7 +17,6 @@ public abstract class PrincipalActivity extends AppCompatActivity {
     private LinearLayout activityContainer;
     private View viewHeader;
     private ImageView imageView;
-    
 
     @Override
     public void setContentView(int layoutResID) {
