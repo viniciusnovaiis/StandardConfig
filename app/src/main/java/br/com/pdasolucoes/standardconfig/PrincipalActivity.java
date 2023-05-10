@@ -8,6 +8,7 @@ import android.widget.LinearLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import br.com.pdasolucoes.standardconfig.managers.AuthManager;
 import br.com.pdasolucoes.standardconfig.managers.NetworkManager;
 import br.com.pdasolucoes.standardconfig.utils.ConfigurationHelper;
 import br.com.pdasolucoes.standardconfig.utils.NavigationHelper;
@@ -53,6 +54,8 @@ public abstract class PrincipalActivity extends AppCompatActivity {
     }
 
     private final Runnable disconnectCallback = () -> {
+
+        AuthManager.logoutUser();
         try {
             NetworkManager.openApk("br.com.pdasolucoes.basesystem");
         } catch (Exception ignored) {
