@@ -168,6 +168,7 @@ public class NetworkManager {
                     ConfigurationHelper.savePreference(ConfigurationHelper.ConfigurationEntry.UserLogin, activity.getIntent().getExtras().getString(ConfigurationHelper.ConfigurationEntry.UserLogin.getKeyName(), ""));
                     ConfigurationHelper.savePreference(ConfigurationHelper.ConfigurationEntry.IsLoggedIn, activity.getIntent().getExtras().getBoolean(ConfigurationHelper.ConfigurationEntry.IsLoggedIn.getKeyName(), false));
                     ConfigurationHelper.savePreference(ConfigurationHelper.ConfigurationEntry.PackageName, activity.getIntent().getExtras().getString(ConfigurationHelper.ConfigurationEntry.PackageName.getKeyName(), ""));
+                    ConfigurationHelper.savePreference(ConfigurationHelper.ConfigurationEntry.Modulo, activity.getIntent().getExtras().getString(ConfigurationHelper.ConfigurationEntry.Modulo.getKeyName(), ""));
                     ConfigurationHelper.savePreference(ConfigurationHelper.ConfigurationEntry.MacAddress, activity.getIntent().getExtras().getString(ConfigurationHelper.ConfigurationEntry.MacAddress.getKeyName(), ""));
                     ConfigurationHelper.savePreference(ConfigurationHelper.ConfigurationEntry.Token, activity.getIntent().getExtras().getString(ConfigurationHelper.ConfigurationEntry.Token.getKeyName(), ""));
                     ConfigurationHelper.savePreference(ConfigurationHelper.ConfigurationEntry.RefreshToken, activity.getIntent().getExtras().getString(ConfigurationHelper.ConfigurationEntry.RefreshToken.getKeyName(), ""));
