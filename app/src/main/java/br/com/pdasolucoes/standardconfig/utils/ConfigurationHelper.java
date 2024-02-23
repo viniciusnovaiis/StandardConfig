@@ -86,6 +86,7 @@ public class ConfigurationHelper {
         Token(Catalog.Authentication, "TOKEN"),
         TimeOutSession(Catalog.Authentication, "TIMEOUTSESSION"),
         PackageName(Catalog.Application, "PACKAGENAME"),
+        Modulo(Catalog.Application, "MODULO"),
         MacAddress(Catalog.Printer, "MACADDRESS"),
         IsConfigured(Catalog.Credentials, "ISCONFIGURED");
 
