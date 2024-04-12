@@ -36,6 +36,10 @@ public class MyApplication extends MultiDexApplication implements DialogInterfac
         return instance;
     }
 
+    public static void setInstance(MyApplication instance) {
+        MyApplication.instance = instance;
+    }
+
     public interface ResultToken {
         void onToken(String token);
     }
