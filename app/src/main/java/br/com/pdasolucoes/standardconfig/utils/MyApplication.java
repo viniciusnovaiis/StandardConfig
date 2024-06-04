@@ -147,7 +147,7 @@ public class MyApplication extends MultiDexApplication implements DialogInterfac
             int resultCode = intent.getIntExtra("resultCode", RESULT_CANCELED);
             if (resultCode == RESULT_OK) {
                 String resultValue = intent.getStringExtra("resultValue");
-                if (resultToken != null)
+                if (resultToken != null )
                     resultToken.onToken(resultValue);
             }
         }
