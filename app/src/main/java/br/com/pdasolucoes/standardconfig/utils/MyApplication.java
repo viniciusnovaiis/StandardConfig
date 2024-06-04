@@ -5,14 +5,11 @@ import static android.app.Activity.RESULT_OK;
 
 import android.app.Activity;
 import android.content.BroadcastReceiver;
-import android.content.ComponentCallbacks;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.res.Configuration;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
@@ -22,7 +19,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.multidex.MultiDex;
 import androidx.multidex.MultiDexApplication;
 
-import br.com.pdasolucoes.standardconfig.R;
 import br.com.pdasolucoes.standardconfig.managers.AuthManager;
 
 public class MyApplication extends MultiDexApplication implements DialogInterface.OnShowListener {
@@ -151,7 +147,8 @@ public class MyApplication extends MultiDexApplication implements DialogInterfac
             int resultCode = intent.getIntExtra("resultCode", RESULT_CANCELED);
             if (resultCode == RESULT_OK) {
                 String resultValue = intent.getStringExtra("resultValue");
-                resultToken.onToken(resultValue);
+                if (resultToken != null)
+                    resultToken.onToken(resultValue);
             }
         }
     };
