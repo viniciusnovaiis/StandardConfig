@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -68,7 +69,11 @@ public class MyApplication extends MultiDexApplication implements DialogInterfac
                 NavigationHelper.setCurrentAppCompat((AppCompatActivity) activity);
 
                 IntentFilter filter = new IntentFilter(Service.ACTION);
-                instance.registerReceiver(receiver, filter);
+                if (Build.VERSION.SDK_INT >= 34 && getApplicationInfo().targetSdkVersion >= 34) {
+                    instance.registerReceiver(receiver, filter, Context.RECEIVER_EXPORTED);
+                } else {
+                    instance.registerReceiver(receiver, filter);
+                }
             }
 
             @Override
