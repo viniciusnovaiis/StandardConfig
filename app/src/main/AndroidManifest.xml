@@ -30,7 +30,8 @@
             android:exported="true" />
         <uses-library
             android:name="org.apache.http.legacy"
-            android:required="false" />
+            android:required="false"
+            android:exported="true"/>
 <!--        <activity android:name=".MainActivity">-->
 <!--            <intent-filter>-->
 <!--                <action android:name="android.intent.action.MAIN" />-->
