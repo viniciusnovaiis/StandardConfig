@@ -3,7 +3,7 @@ apply plugin: 'com.android.library'
 
 android {
     defaultConfig {
-        compileSdk 30
+        compileSdk 34
     }
 
 
