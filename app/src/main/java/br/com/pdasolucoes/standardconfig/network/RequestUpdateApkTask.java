@@ -16,15 +16,15 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import br.com.pdasolucoes.standardconfig.BuildConfig;
-import br.com.pdasolucoes.standardconfig.R;
+
+
 import br.com.pdasolucoes.standardconfig.managers.NetworkManager;
 import br.com.pdasolucoes.standardconfig.network.enums.MessageConfiguration;
 import br.com.pdasolucoes.standardconfig.network.interfaces.IRequest;
 import br.com.pdasolucoes.standardconfig.utils.ConfigurationHelper;
 import br.com.pdasolucoes.standardconfig.utils.MyApplication;
 import br.com.pdasolucoes.standardconfig.utils.NavigationHelper;
-import br.com.pdasolucoes.standardconfig.utils.PermissionHelper;
+
 
 public class RequestUpdateApkTask extends AsyncTaskRunner<Void, Void, Object> {
 
