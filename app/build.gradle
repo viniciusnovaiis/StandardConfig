@@ -3,6 +3,7 @@ apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion 34
+    namespace 'br.com.pdasolucoes.standardconfig'
     defaultConfig {
         useLibrary 'org.apache.http.legacy'
         //applicationId "br.com.pdasolucoes.standardconfig"
