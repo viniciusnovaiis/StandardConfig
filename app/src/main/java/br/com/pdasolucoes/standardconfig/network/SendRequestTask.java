@@ -148,11 +148,11 @@ public class SendRequestTask extends AsyncTaskRunner<Void, Void, Object> {
             String token = ConfigurationHelper.loadPreference(ConfigurationHelper.ConfigurationEntry.Token, "");
             String baseUrlApi;
             if (!TextUtils.isEmpty(serverApi)) {
-                if (!serverApi.contains("http"))
+                if (!serverApi.contains("http") || !serverApi.contains("https"))
                     serverApi = "http://" + serverApi;
                 baseUrlApi = serverApi;
             } else {
-                if (!baseUrl.contains("http"))
+                if (!baseUrl.contains("http") || !baseUrl.contains("https"))
                     baseUrl = "http://" + baseUrl;
                 baseUrlApi = baseUrl + service;
             }
