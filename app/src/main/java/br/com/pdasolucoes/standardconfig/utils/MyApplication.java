@@ -16,6 +16,7 @@ import android.view.inputmethod.InputMethodManager;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.multidex.MultiDex;
 import androidx.multidex.MultiDexApplication;
@@ -69,16 +70,13 @@ public class MyApplication extends MultiDexApplication implements DialogInterfac
 
             }
 
+            @RequiresApi(api = Build.VERSION_CODES.TIRAMISU)
             @Override
             public void onActivityResumed(@NonNull final Activity activity) {
                 NavigationHelper.setCurrentAppCompat((AppCompatActivity) activity);
 
                 IntentFilter filter = new IntentFilter(Service.ACTION);
-                if (Build.VERSION.SDK_INT >= 34 && getApplicationInfo().targetSdkVersion >= 34) {
-                    instance.registerReceiver(receiver, filter, RECEIVER_EXPORTED);
-                } else {
-                    instance.registerReceiver(receiver, filter);
-                }
+                instance.registerReceiver(receiver, filter, RECEIVER_EXPORTED);
             }
 
             @Override
