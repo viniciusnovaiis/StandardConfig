@@ -16,9 +16,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 public class Service extends IntentService {
 
     public static final String ACTION = "br.com.pdasolucoes.standardconfig.utis.Service";
-    /**
-     * @deprecated
-     */
+
     public Service() {
         super("service");
     }
