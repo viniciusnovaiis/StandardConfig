@@ -1,7 +1,7 @@
 package br.com.pdasolucoes.standardconfig.network;
 
-import android.app.Activity;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
@@ -16,15 +16,12 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import br.com.pdasolucoes.standardconfig.BuildConfig;
-import br.com.pdasolucoes.standardconfig.R;
 import br.com.pdasolucoes.standardconfig.managers.NetworkManager;
 import br.com.pdasolucoes.standardconfig.network.enums.MessageConfiguration;
 import br.com.pdasolucoes.standardconfig.network.interfaces.IRequest;
 import br.com.pdasolucoes.standardconfig.utils.ConfigurationHelper;
 import br.com.pdasolucoes.standardconfig.utils.MyApplication;
 import br.com.pdasolucoes.standardconfig.utils.NavigationHelper;
-import br.com.pdasolucoes.standardconfig.utils.PermissionHelper;
 
 public class RequestUpdateApkTask extends AsyncTaskRunner<Void, Void, Object> {
 
@@ -61,7 +58,9 @@ public class RequestUpdateApkTask extends AsyncTaskRunner<Void, Void, Object> {
             URL url = new URL(baseUrl + service + "/" + action);
             HttpURLConnection c = (HttpURLConnection) url.openConnection();
 
-            File PATH = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+            ContextWrapper contextWrapper = new ContextWrapper(context);
+            //File PATH = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+            File PATH = contextWrapper.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
             File file = new File(PATH, Environment.DIRECTORY_DOWNLOADS);
             if (!file.exists())
                 file.mkdirs();

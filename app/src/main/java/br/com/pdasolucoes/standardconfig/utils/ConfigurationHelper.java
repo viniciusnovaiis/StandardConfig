@@ -84,7 +84,10 @@ public class ConfigurationHelper {
         IsLoggedIn(Catalog.Authentication, "ISLOGGEDIN"),
         RefreshToken(Catalog.Authentication, "REFRESHTOKEN"),
         Token(Catalog.Authentication, "TOKEN"),
+        TimeOutSession(Catalog.Authentication, "TIMEOUTSESSION"),
+        EnableScannerCamera(Catalog.Application, "ENABLESACNNERCAMERA"),
         PackageName(Catalog.Application, "PACKAGENAME"),
+        Modulo(Catalog.Application, "MODULO"),
         MacAddress(Catalog.Printer, "MACADDRESS"),
         IsConfigured(Catalog.Credentials, "ISCONFIGURED");
 

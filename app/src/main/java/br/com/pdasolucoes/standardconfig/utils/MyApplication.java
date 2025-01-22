@@ -1,7 +1,9 @@
 package br.com.pdasolucoes.standardconfig.utils;
 
+import static android.app.Activity.RESULT_CANCELED;
+import static android.app.Activity.RESULT_OK;
+
 import android.app.Activity;
-import android.app.Application;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -11,21 +13,16 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.multidex.MultiDex;
 import androidx.multidex.MultiDexApplication;
 
-import br.com.pdasolucoes.standardconfig.R;
 import br.com.pdasolucoes.standardconfig.managers.AuthManager;
-import br.com.pdasolucoes.standardconfig.managers.NetworkManager;
-
-import static android.app.Activity.RESULT_CANCELED;
-import static android.app.Activity.RESULT_OK;
 
 public class MyApplication extends MultiDexApplication implements DialogInterface.OnShowListener {
 
@@ -38,6 +35,10 @@ public class MyApplication extends MultiDexApplication implements DialogInterfac
         return instance;
     }
 
+    public static void setInstance(MyApplication instance) {
+        MyApplication.instance = instance;
+    }
+
     public interface ResultToken {
         void onToken(String token);
     }
@@ -45,6 +46,7 @@ public class MyApplication extends MultiDexApplication implements DialogInterfac
     public static void setOnResultTokeListener(ResultToken resultTokeListener) {
         resultToken = resultTokeListener;
     }
+
 
     @Override
     public void onCreate() {
@@ -54,8 +56,11 @@ public class MyApplication extends MultiDexApplication implements DialogInterfac
         MultiDex.install(this);
 
         registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
+
             @Override
             public void onActivityCreated(@NonNull Activity activity, @Nullable Bundle savedInstanceState) {
+
+
                 AuthManager.launchService();
                 NavigationHelper.setCurrentAppCompat((AppCompatActivity) activity);
 
@@ -63,18 +68,16 @@ public class MyApplication extends MultiDexApplication implements DialogInterfac
 
             @Override
             public void onActivityStarted(@NonNull Activity activity) {
+
             }
 
+            @RequiresApi(api = Build.VERSION_CODES.TIRAMISU)
             @Override
             public void onActivityResumed(@NonNull final Activity activity) {
                 NavigationHelper.setCurrentAppCompat((AppCompatActivity) activity);
 
                 IntentFilter filter = new IntentFilter(Service.ACTION);
-                if (Build.VERSION.SDK_INT >= 34 && getApplicationInfo().targetSdkVersion >= 34) {
-                    instance.registerReceiver(receiver, filter, RECEIVER_EXPORTED);
-                } else {
-                    instance.registerReceiver(receiver, filter);
-                }
+                instance.registerReceiver(receiver, filter, RECEIVER_EXPORTED);
             }
 
             @Override
@@ -84,6 +87,7 @@ public class MyApplication extends MultiDexApplication implements DialogInterfac
 
             @Override
             public void onActivityStopped(@NonNull Activity activity) {
+
             }
 
             @Override
@@ -96,9 +100,10 @@ public class MyApplication extends MultiDexApplication implements DialogInterfac
                 clearReferences(activity);
             }
 
-
         });
+
     }
+
 
     private void clearReferences(Activity activity) {
         Activity currActivity = NavigationHelper.getCurrentAppCompat();
@@ -146,7 +151,8 @@ public class MyApplication extends MultiDexApplication implements DialogInterfac
             int resultCode = intent.getIntExtra("resultCode", RESULT_CANCELED);
             if (resultCode == RESULT_OK) {
                 String resultValue = intent.getStringExtra("resultValue");
-                resultToken.onToken(resultValue);
+                if (resultToken != null )
+                    resultToken.onToken(resultValue);
             }
         }
     };
