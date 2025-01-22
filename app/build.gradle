@@ -41,11 +41,6 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.2.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.6.1'
     compileOnly 'org.jbundle.util.osgi.wrapped:org.jbundle.util.osgi.wrapped.org.apache.http.client:4.1.2'
-//    implementation 'androidx.recyclerview:recyclerview:1.1.0'
-//    implementation "androidx.cardview:cardview:1.0.0"
-//    implementation 'com.github.bumptech.glide:glide:4.11.0'
-//    annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
-
 }
 
 task deleteOldJar(type: Delete) {
@@ -53,12 +48,12 @@ task deleteOldJar(type: Delete) {
 }
 
 //Task para exportar conteudos para JAR
-//task exportJar(type: Copy) {
-//    from('build/intermediates/bundles/release/')
-//    into('release/')
-//    include('classes.jar')
-//
-//    rename('classes.jar', 'AndroidPlugin.jar')
-//}
-//
-//exportJar.dependsOn(deleteOldJar, build)
+task exportJar(type: Copy) {
+    from('build/intermediates/bundles/release/')
+    into('release/')
+    include('classes.jar')
+
+    rename('classes.jar', 'AndroidPlugin.jar')
+}
+
+exportJar.dependsOn(deleteOldJar, build)
