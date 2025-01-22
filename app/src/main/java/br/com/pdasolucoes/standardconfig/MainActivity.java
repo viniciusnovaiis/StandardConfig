@@ -9,6 +9,8 @@ import android.view.View;
 import br.com.pdasolucoes.standardconfig.managers.AuthManager;
 import br.com.pdasolucoes.standardconfig.managers.NetworkManager;
 import br.com.pdasolucoes.standardconfig.service.AuthenticationPost;
+import br.com.pdasolucoes.standardconfig.service.Login;
+import br.com.pdasolucoes.standardconfig.utils.ConfigurationHelper;
 import br.com.pdasolucoes.standardconfig.utils.Service;
 
 public class MainActivity extends AppCompatActivity {
@@ -31,7 +33,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                NetworkManager.sendRequest(new AuthenticationPost("102030","102030",""));
+                ConfigurationHelper.savePreference(ConfigurationHelper.ConfigurationEntry.ServerAddress,
+                    "https://189.113.15.118:3101/");
+                ConfigurationHelper.savePreference(ConfigurationHelper.ConfigurationEntry.Directory,"api");
+
+                NetworkManager.sendRequest(new Login());
 
             }
         });
