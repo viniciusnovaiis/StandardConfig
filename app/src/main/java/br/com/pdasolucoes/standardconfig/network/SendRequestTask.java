@@ -163,22 +163,22 @@ public class SendRequestTask extends AsyncTaskRunner<Void, Void, Object> {
             String serverApi = ConfigurationHelper.loadPreference(ConfigurationHelper.ConfigurationEntry.ServerAddressApi, "");
             String action = this.request.getAction();
             String token = ConfigurationHelper.loadPreference(ConfigurationHelper.ConfigurationEntry.Token, "");
-            String baseUrlApi;
+            String baseUrlApi = serverApi;
             if (!TextUtils.isEmpty(serverApi)) {
-                if (!serverApi.contains("http") && serverApi.contains("https"))
-                    serverApi = "https://" + serverApi;
-                else if (!serverApi.contains("https") && serverApi.contains("http"))
-                    serverApi = "http://" + serverApi;
+//                if (!serverApi.contains("http") && serverApi.contains("https"))
+//                    serverApi = "https://" + serverApi;
+//                else if (!serverApi.contains("https") && serverApi.contains("http"))
+//                    serverApi = "http://" + serverApi;
                 baseUrlApi = serverApi;
             } else {
-                if (!baseUrl.contains("http") && baseUrl.contains("https"))
-                    baseUrl = "https://" + baseUrl;
-                else if (!baseUrl.contains("https") && baseUrl.contains("http"))
-                    baseUrl = "http://" + baseUrl;
+//                if (!baseUrl.contains("http") && baseUrl.contains("https"))
+//                    baseUrl = "https://" + baseUrl;
+//                else if (!baseUrl.contains("https") && baseUrl.contains("http"))
+//                    baseUrl = "http://" + baseUrl;
                 baseUrlApi = baseUrl + service;
             }
 
-            if (baseUrlApi.contains("https") || baseUrl.contains("https")) {
+            if (baseUrlApi.contains("https")) {
                 // Configurar SSLContext para confiar em todos os certificados
                 SSLContext sslContext = SSLContext.getInstance("TLS");
                 sslContext.init(null, new TrustManager[]{
@@ -235,11 +235,15 @@ public class SendRequestTask extends AsyncTaskRunner<Void, Void, Object> {
                     }
                     in.close();
                     return response.toString();
-                } else {
-                    MessageConfiguration.ExceptionError.setExceptionErrorMessage("Error: " + responseCode + "\n" + connection.getContentType());
-                    return MessageConfiguration.ExceptionError;
                 }
 
+                MessageConfiguration.ExceptionError.setExceptionErrorMessage("Error: " + responseCode + "\n" + connection.getContentType());
+                return MessageConfiguration.ExceptionError;
+
+            }
+
+            if (!baseUrlApi.contains("http")) {
+                baseUrlApi = "http://" + baseUrlApi;
             }
 
 
