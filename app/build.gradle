@@ -48,12 +48,12 @@ task deleteOldJar(type: Delete) {
 }
 
 //Task para exportar conteudos para JAR
-task exportJar(type: Copy) {
-    from('build/intermediates/bundles/release/')
-    into('release/')
-    include('classes.jar')
-
-    rename('classes.jar', 'AndroidPlugin.jar')
-}
-
-exportJar.dependsOn(deleteOldJar, build)
+//task exportJar(type: Copy) {
+//    from('build/intermediates/bundles/release/')
+//    into('release/')
+//    include('classes.jar')
+//
+//    rename('classes.jar', 'AndroidPlugin.jar')
+//}
+//
+//exportJar.dependsOn(deleteOldJar, build)
