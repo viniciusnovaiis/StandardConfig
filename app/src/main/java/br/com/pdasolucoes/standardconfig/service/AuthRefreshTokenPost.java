@@ -34,7 +34,7 @@ public class AuthRefreshTokenPost extends JsonRequestBase {
 
     @Override
     protected RequestInfo getRequestInfo() {
-        return new RequestInfo("api/Autenticacao/refresh-token",
+        return new RequestInfo("Autenticacao/refresh-token",
                 RequestType.Backgroud,
                 R.string.autenticando,
                 MethodRequest.POST,
