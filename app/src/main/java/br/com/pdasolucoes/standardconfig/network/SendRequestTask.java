@@ -124,6 +124,7 @@ public class SendRequestTask extends AsyncTaskRunner<Void, Void, Object> {
                 transportSE = new HttpTransportSE(baseUrl.concat("/").concat(this.request.getService()));
 
 
+            trustAllCertificates();
             transportSE.call(this.request.getNameSpace() + this.request.getAction(), envelope);
 
             if (this.request.isUniqueReturn()) {
@@ -149,6 +150,30 @@ public class SendRequestTask extends AsyncTaskRunner<Void, Void, Object> {
         return response;
     }
 
+    private void trustAllCertificates() {
+        try {
+            TrustManager[] trustAllCerts = new TrustManager[]{
+                    new X509TrustManager() {
+                        public X509Certificate[] getAcceptedIssuers() {
+                            return new X509Certificate[0];
+                        }
+
+                        public void checkClientTrusted(X509Certificate[] certs, String authType) {
+                        }
+
+                        public void checkServerTrusted(X509Certificate[] certs, String authType) {
+                        }
+                    }
+            };
+
+            SSLContext sc = SSLContext.getInstance("SSL");
+            sc.init(null, trustAllCerts, new java.security.SecureRandom());
+            HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
+            HttpsURLConnection.setDefaultHostnameVerifier((hostname, session) -> true);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     private Object requestREST() {
         try {
