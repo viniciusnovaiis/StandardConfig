@@ -238,6 +238,7 @@ public class SendRequestTask extends AsyncTaskRunner<Void, Void, Object> {
 
                 // Definir cabeçalho Content-Type
                 connection.setRequestProperty("Content-Type", "application/json");
+                connection.setRequestProperty("Accept", "application/json");
 
                 // Enviar payload JSON
                 if (this.request.getMethodRequest() == MethodRequest.POST
