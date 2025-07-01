@@ -233,6 +233,10 @@ public class SendRequestTask extends AsyncTaskRunner<Void, Void, Object> {
                 // Desabilitar a verificação do hostname (não recomendado em produção)
                 connection.setHostnameVerifier((hostname, session) -> true);
 
+                // 🔒 Sempre envia o token
+                connection.setRequestProperty("Authorization", "Bearer " + token);
+
+                // Definir cabeçalho Accept
                 connection.setRequestProperty("Accept", "application/json");
 
                 if (this.request.getMethodRequest() == MethodRequest.PATCH && Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
