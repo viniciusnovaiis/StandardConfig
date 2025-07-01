@@ -232,22 +232,24 @@ public class SendRequestTask extends AsyncTaskRunner<Void, Void, Object> {
                 // Desabilitar a verificação do hostname (não recomendado em produção)
                 connection.setHostnameVerifier((hostname, session) -> true);
 
-                // Configurar a requisição POST
-                connection.setRequestMethod(this.request.getMethodRequest().toString());
-                connection.setDoOutput(true);
-
-                // Definir cabeçalho Content-Type
-                connection.setRequestProperty("Content-Type", "application/json");
-                connection.setRequestProperty("Accept", "application/json");
-
                 // Enviar payload JSON
                 if (this.request.getMethodRequest() == MethodRequest.POST
                         || this.request.getMethodRequest() == MethodRequest.PUT) {
+
+                    // Configurar a requisição POST
+                    connection.setRequestMethod(this.request.getMethodRequest().toString());
+                    connection.setDoOutput(true);
+
+                    // Definir cabeçalho Content-Type
+                    connection.setRequestProperty("Content-Type", "application/json");
 
                     OutputStream os = connection.getOutputStream();
                     byte[] input = EntityUtils.toString(this.request.getRequestEntity()).toString().getBytes(StandardCharsets.UTF_8);
                     os.write(input, 0, input.length);
                     os.close();
+                }else{
+                    // Definir cabeçalho Content-Type
+                    connection.setRequestProperty("Accept", "application/json");
                 }
 
                 // Obter o código de resposta
