@@ -1,5 +1,6 @@
 package br.com.pdasolucoes.standardconfig.network;
 
+import android.os.Build;
 import android.text.TextUtils;
 
 import org.apache.http.HttpEntity;
@@ -232,12 +233,20 @@ public class SendRequestTask extends AsyncTaskRunner<Void, Void, Object> {
                 // Desabilitar a verificação do hostname (não recomendado em produção)
                 connection.setHostnameVerifier((hostname, session) -> true);
 
+                connection.setRequestProperty("Accept", "application/json");
+
+                if (this.request.getMethodRequest() == MethodRequest.PATCH && Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+                    connection.setRequestMethod("POST");
+                    connection.setRequestProperty("X-HTTP-Method-Override", "PATCH");
+                } else {
+                    connection.setRequestMethod(this.request.getMethodRequest().toString());
+                }
+
                 // Enviar payload JSON
-                if (this.request.getMethodRequest() == MethodRequest.POST
-                        || this.request.getMethodRequest() == MethodRequest.PUT) {
+                if (this.request.getMethodRequest() != MethodRequest.GET
+                        && this.request.getMethodRequest() != MethodRequest.DELETE){
 
                     // Configurar a requisição POST
-                    connection.setRequestMethod(this.request.getMethodRequest().toString());
                     connection.setDoOutput(true);
 
                     // Definir cabeçalho Content-Type
@@ -247,9 +256,6 @@ public class SendRequestTask extends AsyncTaskRunner<Void, Void, Object> {
                     byte[] input = EntityUtils.toString(this.request.getRequestEntity()).toString().getBytes(StandardCharsets.UTF_8);
                     os.write(input, 0, input.length);
                     os.close();
-                }else{
-                    // Definir cabeçalho Content-Type
-                    connection.setRequestProperty("Accept", "application/json");
                 }
 
                 // Obter o código de resposta
