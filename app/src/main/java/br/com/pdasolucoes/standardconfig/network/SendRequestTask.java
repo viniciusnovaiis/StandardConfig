@@ -30,6 +30,7 @@ import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.MalformedURLException;
@@ -264,20 +265,37 @@ public class SendRequestTask extends AsyncTaskRunner<Void, Void, Object> {
 
                 // Obter o código de resposta
                 int responseCode = connection.getResponseCode();
+                InputStream inputStream;
+
                 if (responseCode == HttpsURLConnection.HTTP_OK) {
-                    BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                    String inputLine;
-                    StringBuilder response = new StringBuilder();
-                    while ((inputLine = in.readLine()) != null) {
-                        response.append(inputLine);
-                    }
-                    in.close();
-                    return response.toString();
+                    inputStream = connection.getInputStream();
+                } else if (responseCode == HttpsURLConnection.HTTP_BAD_REQUEST) {
+                    inputStream = connection.getErrorStream(); // <- lê o corpo de erro (JSON)
+                } else {
+                    MessageConfiguration.ExceptionError.setExceptionErrorMessage("Erro: " + responseCode + connection.getContentType());
+                    return MessageConfiguration.ExceptionError;
                 }
 
-                MessageConfiguration.ExceptionError.setExceptionErrorMessage("Error: " + responseCode + "\n" + connection.getContentType());
-                return MessageConfiguration.ExceptionError;
+                // Lê o corpo (seja sucesso ou erro 400)
+                BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+                StringBuilder response = new StringBuilder();
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    response.append(line);
+                }
+                reader.close();
 
+                return response.toString(); // <- JSON será retornado mesmo com erro 400
+//                if (responseCode == HttpsURLConnection.HTTP_OK) {
+//                    BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+//                    String inputLine;
+//                    StringBuilder response = new StringBuilder();
+//                    while ((inputLine = in.readLine()) != null) {
+//                        response.append(inputLine);
+//                    }
+//                    in.close();
+//                    return response.toString();
+//                }
             }
 
             if (!baseUrlApi.contains("http")) {
