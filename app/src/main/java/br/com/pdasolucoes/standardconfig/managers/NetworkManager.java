@@ -180,6 +180,7 @@ public class NetworkManager {
                     ConfigurationHelper.savePreference(ConfigurationHelper.ConfigurationEntry.ServerAddressApi, activity.getIntent().getExtras().getString(ConfigurationHelper.ConfigurationEntry.ServerAddressApi.getKeyName(), ""));
                     ConfigurationHelper.savePreference(ConfigurationHelper.ConfigurationEntry.Directory, activity.getIntent().getExtras().getString(ConfigurationHelper.ConfigurationEntry.Directory.getKeyName(), ""));
                     ConfigurationHelper.savePreference(ConfigurationHelper.ConfigurationEntry.Store, activity.getIntent().getExtras().getString(ConfigurationHelper.ConfigurationEntry.Store.getKeyName(), ""));
+                    ConfigurationHelper.savePreference(ConfigurationHelper.ConfigurationEntry.IsGridList, activity.getIntent().getExtras().getString(ConfigurationHelper.ConfigurationEntry.IsGridList.getKeyName(), ""));
                 }
             }
 

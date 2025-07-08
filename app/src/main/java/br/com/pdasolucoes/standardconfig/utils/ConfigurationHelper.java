@@ -89,7 +89,8 @@ public class ConfigurationHelper {
         PackageName(Catalog.Application, "PACKAGENAME"),
         Modulo(Catalog.Application, "MODULO"),
         MacAddress(Catalog.Printer, "MACADDRESS"),
-        IsConfigured(Catalog.Credentials, "ISCONFIGURED");
+        IsConfigured(Catalog.Credentials, "ISCONFIGURED"),
+        IsGridList(Catalog.Application, "ISGRIDLIST");
 
         private Catalog catalog;
         private String name;
