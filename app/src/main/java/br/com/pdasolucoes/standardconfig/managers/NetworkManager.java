@@ -114,23 +114,16 @@ public class NetworkManager {
     }
 
     public static boolean tryUpdateApk(String versionArray, String packageName, String namePaste,String nameApk) {
-        String[] versions = versionArray.split("[;]");
-        List<Boolean> isUpdates = new ArrayList<>();
+        String[] versions = versionArray.split("[,]");
 
         String currentNameVersion = getVersionName(packageName);
 
-        for (String v : versions) {
-            isUpdates.add(currentNameVersion.equals(v.trim()));
-        }
-
-        if (!isUpdates.contains(true)) {
+        if ((Long.parseLong(versions[0].trim().replace(".", ""))
+                > Long.parseLong(currentNameVersion.replace(".", ""))) && versions.length == 1) {
             NetworkManager.sendRequestApk(new UpdateApkTaskRequest(namePaste, nameApk));
             return true;
         }
-
         return false;
-
-
     }
 
     public static void openApk(String packageName) {
