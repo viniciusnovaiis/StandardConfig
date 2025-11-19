@@ -23,11 +23,11 @@ public class ConfigurationHelper {
     }
 
     public static void savePreference(ConfigurationEntry entry, String value) {
-        String encryptedValue = Cryptography.encrypt(value);
+        //String encryptedValue = Cryptography.encrypt(value);
 
         SharedPreferences preferences = MyApplication.getInstance().getSharedPreferences(entry.getCatalogName(), Context.MODE_PRIVATE);
         Editor preferencesEditor = preferences.edit();
-        preferencesEditor.putString(entry.getKeyName(), encryptedValue);
+        preferencesEditor.putString(entry.getKeyName(), value);
         preferencesEditor.apply();
     }
 
@@ -40,8 +40,8 @@ public class ConfigurationHelper {
 
     public static String loadPreference(ConfigurationEntry entry, String defaultValue) {
         SharedPreferences preferences = MyApplication.getInstance().getSharedPreferences(entry.getCatalogName(), Context.MODE_PRIVATE);
-        String encryptedValue = preferences.getString(entry.getKeyName(), defaultValue);
-        return Cryptography.decrypt(encryptedValue);
+        return preferences.getString(entry.getKeyName(), defaultValue);
+        //return Cryptography.decrypt(encryptedValue);
     }
 
     public static int loadPreference(ConfigurationEntry entry, int defaultValue) {
