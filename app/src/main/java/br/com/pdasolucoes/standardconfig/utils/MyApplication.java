@@ -53,7 +53,7 @@ public class MyApplication extends MultiDexApplication implements DialogInterfac
         MyApplication.instance = this;
         super.onCreate();
 
-        MultiDex.install(this);
+        //MultiDex.install(this);
 
         registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
 
@@ -76,13 +76,13 @@ public class MyApplication extends MultiDexApplication implements DialogInterfac
             public void onActivityResumed(@NonNull final Activity activity) {
                 NavigationHelper.setCurrentAppCompat((AppCompatActivity) activity);
 
-                IntentFilter filter = new IntentFilter(Service.ACTION);
-                instance.registerReceiver(receiver, filter, RECEIVER_EXPORTED);
+//                IntentFilter filter = new IntentFilter(Service.ACTION);
+//                instance.registerReceiver(receiver, filter, RECEIVER_EXPORTED);
             }
 
             @Override
             public void onActivityPaused(@NonNull Activity activity) {
-                getInstance().unregisterReceiver(receiver);
+                //getInstance().unregisterReceiver(receiver);
             }
 
             @Override
