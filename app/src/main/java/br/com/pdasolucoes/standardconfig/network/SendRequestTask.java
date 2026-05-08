@@ -272,7 +272,7 @@ public class SendRequestTask extends AsyncTaskRunner<Void, Void, Object> {
                 } else if (responseCode == HttpsURLConnection.HTTP_BAD_REQUEST) {
                     inputStream = connection.getErrorStream(); // <- lê o corpo de erro (JSON)
                 }else if(responseCode == HttpsURLConnection.HTTP_UNAUTHORIZED){
-                    inputStream = connection.getErrorStream();
+                    return MessageConfiguration.ExceptionError;
                 } else {
                     MessageConfiguration.ExceptionError.setExceptionErrorMessage("Erro: " + responseCode + connection.getContentType());
                     return MessageConfiguration.ExceptionError;
