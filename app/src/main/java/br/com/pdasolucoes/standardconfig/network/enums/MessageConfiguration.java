@@ -13,6 +13,7 @@ public enum MessageConfiguration {
 
     NetworkError(1, R.string.title_error, R.string.message_error_network),
     ExceptionError(2, R.string.title_error),
+    NotAuthorizaton(2, R.string.n_autorizado),
     ContextViewError(2, R.string.title_error, R.string.error_view),
     PermissonDeniedError(2, R.string.title_error, R.string.error_permission_denied);
 

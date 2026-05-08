@@ -41,4 +41,5 @@
     <string name="ok">OK</string>
     <string name="autenticando">Autenticando...</string>
     <string name="sessao_encerrada">Sessão encerrada</string>
+    <string name="n_autorizado">Não autorizado</string>
 </resources>
